@@ -79,31 +79,11 @@ service jboss-eap start
 
 # Ahora se agrega el servicio Jboss al systemd para iniciarlo de forma est�ndar:
 chkconfig --add jboss-eap
-service jboss-eap enable --now
-
-http://ipdemaquinavirtual:9990
+systemctl jboss-eap enable --now
+systemctl is-enabled jboss-eap
 
 # Revisar el jboss desde fuera de la VM
 sudo firewall-cmd --zone=public --add-port=9990/tcp --permanent
 sudo firewall-cmd --reload
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# dotfiles
-#Jetbrains mono
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
-#gogh terminal gnome
-bash -c  "$(wget -qO- https://git.io/vQgMr)" 
+http://ipdemaquinavirtual:9990
