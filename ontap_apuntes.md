@@ -146,3 +146,51 @@ en la interfaz grafica:
 
 cli:
 - aggr create -aggregate n2_aggr1 -maxraidsize 11 -diskcount 11 -raidtype raid_dp -node cluster1-02
+
+
+## Creacion de usuarios
+- 5.1) Configurar el cluster con el objetivo de poder utilizar los usuarios del dominio para conectarnos al storage via SSH y por system manager, en lo especifico, permite que el administrador del dominio duoc\Administrador posea los mismos privilegios que
+
+siempre usar el https para entrar al panel de administracion del ontap 
+
+  Storage -> Storage VMs -> provisionan un protocolo de almacenamiento como NFS o CIFS
+  enable storage VMs -> 
+  ### Access Protocol -> SMB/CIFS, NFS
+  - Credenciales del usuario correspondiente -> en este caso Administrator y pass Duoc.1234 -> 
+  - Server name es maquina dentro del dominio en este caso name
+  - AD Domain, es el nombre del dominio del AD, OU por default CN=Computers -> DNS details, Domains duoc.local -> name server la ip del dns
+
+  ### Network interface
+  - cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.111, subnet 24, gateway 192.168.150.2
+  - cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.112, subnet 24, gateway 192.168.150.2
+
+para revisar -> en Usuarios y equipos del ad -> dentro del dominio, computers, queda el nomber de la maquina que definimos como NAS
+
+### Asignar users al cluster en la consola
+```
+security login show para revisar los usuarios del cluster con sus detalles
+security login domain-tunel show
+security login domain-tunel create -vserver svm0
+security login domain-tunel show
+security login create -user-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin
+security login show
+testeo con otra ventana en el putty -> DUOC\Administrator -> Duoc.1234
+```
+
+## Los otros permisos
+- security login create -user-or-group-name DUOC\Administrator -application http -authentication-method domain -role readonly
+- security login create -user-or-group-name DUOC\Administrator -application ontapi -authentication-method domain -role readonly
+
+luego puedo puedo montar una unidad de red usando nas.duoc.local\paso que es el volumen creado dentro
+
+## generar las llaves para ssh
+- instalar putty key generator
+- generate con generate y mover el mouse que usa esos parametros para definir la llave
+- save private key y la dejamos en el escritorio de donde nos estamos conectando por ssh
+- tomar todo el texto de la llave
+- ir al storate
+- security login publickey show
+- security login create -user-or-group-name admin -application ssh -authentication-method publickey -role admin #el indice es para generar varias claves publicas para un mismo usuario
+- security login publickey create -username admin -index 0 "texto llave" -comment administradorKevin
+
+putty -> ssh -> authentication -> private key file for authentication y selecciono el archivo si en connection -> data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
