@@ -1,51 +1,68 @@
-## Apagar y exportar ovas
-  - apagar el cluster: power shutdown guest en el vmware
-  - file -> exportar a OVF -> name ONTAP1-003V.ova -> asi se guarda el ova actualizado donde quedo guardado
+# Apuntes OnTAP
 
-# Setup
-- importar ova nombrarla como ontap1
-- importar ova nombrarla como ontap2
+> [!NOTE]
+> - Apagar el cluster: power shutdown guest en el vmware.
+> - File -> exportar a OVF -> name {nombre}.ova -> asi se guarda el ova actualizado.
 
-- login user -> admin
 
-# Configuracion nodo1
+> [!TIP]
+> - importar ovas y nombrarlas segun el nodo que corresponda, importar ambas antes de comenzar.
 
-- cluster setup
-  - yes
-  - Enter the node management interface port [e0c]: Aqui enter y dejar por defecto segun el diagrama, luego configuraremos la ip para salir mediante nat al otro nodo para el load balancer
-  - Enter the node management interface IP address: 192.168.150.10
-  - Enter the node management interface netmask: 255.255.255.0
-  - Enter the node management interface default gateway: 192.168.150.2
-  - Otherwise, press enter to complete cluster setup using the command line interface: Apretar enter nomas
+# Configuracion de un clúster con dos nodos
+## Configuracion nodo01
+- login: ```admin```
+- ```cluster setup``` luego ```yes```
+  - Enter the node management interface port [e0c]: ```e0c```
+  - Enter the node management interface IP address: ```192.168.150.11```
+  - Enter the node management interface netmask: ```255.255.255.0```
+  - Enter the node management interface default gateway: ```192.168.150.2```
+  - Otherwise, press enter to complete cluster setup using the command line interface: <kbd>enter</kbd>
+- Do you want yo create a new cluster or join an existing cluster? {create, join}: ```create```
+- Do you intend for this node to be used as a single node cluster? {yes, no}: ```no```
+- Do you want to use this configuration? {yes, no}: ```yes```
 
-- Do you want yo create a new cluster or join an existing cluster? {create, join}: ingresamos -> Create
-- Do you intend for this node to be used as a single node cluster? {yes, no}: responder -> no
-- Do you want to use this configuration? {yes, no}: responder -> yes
+### Login the cluster
+- Enter the cluster administrator's (username "admin") password: ```netap123```
+  - Enter the cluster name: ```cluster1```
+  - Enter an additional license key: <kbd>enter</kbd> **Posteriormente ingresaremos las licencias mediante GUI**
+  - Enter the cluster management interface port: ```e0d``` **Esto sigue siendo el nodo1, por eso es la interfaz e0d**
+  - Enter the cluster management interface IP address: ```192.168.150.12```
+  - Enter the node management interface default gateway: ```192.168.150.2```
+  - Enter the DNS domain names: <kbd>enter</kbd> o ```ip de nuestro DNS```
+  - Where is the controller located?: <kbd>enter</kbd>
+- ```cluster show``` **Obtendrá una respuesta como esta:**
+  ```
+  Node            Health  Elegibility
+  --------------- ------- -----------
+  cluster1-01     true    true
+  cluster1-02     true    true
+  ```
+- ```network interface show```
+  ```
+              
+          logical             Status        Network             Current       Current Is
+  Vserver Interface           Admin/oper    Address/Mask        Node          Port    Home
+  ------- ----------          ------------  -------------       ---------     ------- -----
+  Cluster
+          cluster1-01_clus1   up/up         169.254.140.204/16  cluster1-01   e0a     true
+          cluster1-01_clus2   up/up         169.254.140.214/16  cluster1-01   e0b     true
+          cluster1-02_clus1   up/up         169.254.170.47/16   cluster1-02   e0a     true
+          cluster1-02_clus2   up/up         169.254.170.57/16   cluster1-02   e0b     true
+  cluster1
+          cluster1-01_mgmt1   up/up         192.168.150.11/24   cluster1-01   e0c     true
+          cluster1-01_mgmt1   up/up         192.168.150.12/24   cluster1-01   e0d     true
+  ```
+> [!IMPORTANT]
+> Aún falta configurar la interfaz e0c & e0d del nodo2, por eso no aparece en este resultado, si no aparecen, configurar y volver a consultar
 
-# Login the cluster
-
-- Enter the cluster administrator's (username "admin") password: Ingresarmos -> netap123
-  - Enter the cluster name: cluster1_01
-  - Enter an additional license key: ingresar -> enter
-  - Enter the cluster management interface port: e0d
-  - Enter the cluster management interface IP address: 192.168.150.12
-  - Enter the node management interface default gateway: 192.168.150.2
-  - Enter the DNS domain names: presionar -> enter
-  - Where is the controller located? presionar -> enter
-
-- cluster show
-- network interface show
-
-# Configuracion nodo 2
-
-- Ingresar al nodo 2
-- apretar cualquier tecla para poder entrar a la consola, You should see a VLOADER> prompt.
-- setenv sys_serial_num 4034389-06-2
-- setenv bootarg.nvram.sysid 4034389062
-- Verificar si la info se guardo correctamente con:
-  - printenv sys_serial_num
-  - printenv bootarg.nvram.sysid
-  - boot
+## Configuracion nodo 2
+- apretar cualquier tecla para poder entrar a la consola, deberías ver: ```VLOADER>``` en el prompt.
+- ```setenv sys_serial_num 4034389-06-2```
+- ```setenv bootarg.nvram.sysid 4034389062```
+- **Verificar si la info se guardo correctamente con: Deben retornar los valores ingresados**
+  - ```printenv sys_serial_num```
+  - ```printenv bootarg.nvram.sysid```
+- ```boot```
 
 cuando pregunte por ip del cluster -> ip de la interface e0a del ontap1
 
@@ -74,24 +91,27 @@ configurar la maquina 1 y 2
   - Enter the name server ip add: -> aqui se ingresa la ip del AD del wserver -> 192.168.150.136
   - Press enter
 
-  ## repaso
-  - Ingresar al nodo 2
-  - apretar cualquier tecla para poder entrar a la consola, You should see a VLOADER> prompt.
-  - setenv sys_serial_num 4034389-06-2
-  - setenv bootarg.nvram.sysid 4034389062
-  - Verificar si la info se guardo correctamente con:
-  - printenv sys_serial_num
-  - printenv bootarg.nvram.sysid
-  - boot
+## repaso
+- Ingresar al nodo 2
+- apretar cualquier tecla para poder entrar a la consola, You should see a VLOADER> prompt.
+- setenv sys_serial_num 4034389-06-2
+- setenv bootarg.nvram.sysid 4034389062
+- Verificar si la info se guardo correctamente con:
+  - ```printenv sys_serial_num```
+  - ```printenv bootarg.nvram.sysid```
+- boot
 
-  - admin
-  - setup cluster
-  - int nod man: e0c
-  - Enter the cluste int ip: 192.168.150.102
-  - Enter the cluste int netmask: 255.255.255.0
-  - Enter the cluste int gat: 192.150.102
-  - join
-  - join cluster at address: 169.254.193.42
+- login: ```admin```
+- ```cluster setup```
+  - ```yes```
+  - Enter the node management interface port: ```e0c```
+  - Enter the node management interface ip address: ```192.168.150.102```
+  - Enter the node management interface netmask: ```255.255.255.0```
+  - Enter the node management interface default gateway: ```192.168.150.102```
+  - Otherwise press Enter to complete cluster setup using the command line interface: ```enter```
+  - Do you want to create a new cluster or join an existing cluster?: ```join```
+  - Do you want to use this configuration? {yes, no}: ```yes```
+  - Enter the ip from the cluster you want to join: -> ```Ingresar la ip de la interfaz e0a del nodo 1```
   - cluster show
   - network interface show
 
@@ -194,3 +214,7 @@ luego puedo puedo montar una unidad de red usando nas.duoc.local\paso que es el 
 - security login publickey create -username admin -index 0 "texto llave" -comment administradorKevin
 
 putty -> ssh -> authentication -> private key file for authentication y selecciono el archivo si en connection -> data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
+
+
+# Setup
+- 
