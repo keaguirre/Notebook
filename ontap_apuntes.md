@@ -53,7 +53,7 @@
           cluster1-01_mgmt1   up/up         192.168.150.12/24   cluster1-01   e0d     true
   ```
 > [!IMPORTANT]
-> Aún falta configurar la interfaz e0c & e0d del nodo2, por eso no aparece en este resultado, si no aparecen, configurar y volver a consultar
+> Aún falta configurar la interfaz e0c & e0d del nodo2, por eso no aparece en este resultado, si no aparecen, configurar y volver a consultar.
 
 ## Configuracion nodo 2
 - apretar cualquier tecla para poder entrar a la consola, deberías ver: ```VLOADER>``` en el prompt.
@@ -63,82 +63,42 @@
   - ```printenv sys_serial_num```
   - ```printenv bootarg.nvram.sysid```
 - ```boot```
-
-cuando pregunte por ip del cluster -> ip de la interface e0a del ontap1
-
-# Actividad 2 NFS
-
-configurar la maquina 1 y 2
-
-- Login: admin
-- cluster setup
-  - Enter the node managmenet port: c
-  - Enter the node int ip 192.168.150.101
-  - mask 255.255.255.0
-  - gateway: 192.168.150.102
-
-  - create new cluster
-  - no sigle node cluster
-  - set admin password: Duoc.2024
-  - repeat passwd: Duoc.2024
-  - Enter the cluster name: cluster1
-  - enter an additional license key: enter to skip
-  - Enter the cluster management int port: e0c
-  - Enter the cluster int ip: 192.168.150.100
-  - netmask: 255.255.255.0
-  - gat: 192.168.150.2
-  - Enter the dns domain name: duoc.local
-  - Enter the name server ip add: -> aqui se ingresa la ip del AD del wserver -> 192.168.150.136
-  - Press enter
-
-## repaso
-- Ingresar al nodo 2
-- apretar cualquier tecla para poder entrar a la consola, You should see a VLOADER> prompt.
-- setenv sys_serial_num 4034389-06-2
-- setenv bootarg.nvram.sysid 4034389062
-- Verificar si la info se guardo correctamente con:
-  - ```printenv sys_serial_num```
-  - ```printenv bootarg.nvram.sysid```
-- boot
-
 - login: ```admin```
 - ```cluster setup```
   - ```yes```
   - Enter the node management interface port: ```e0c```
-  - Enter the node management interface ip address: ```192.168.150.102```
+  - Enter the node management interface ip address: ```192.168.150.13```
   - Enter the node management interface netmask: ```255.255.255.0```
   - Enter the node management interface default gateway: ```192.168.150.102```
-  - Otherwise press Enter to complete cluster setup using the command line interface: ```enter```
+  - Otherwise press Enter to complete cluster setup using the command line interface: <kbd>enter</kbd>
   - Do you want to create a new cluster or join an existing cluster?: ```join```
   - Do you want to use this configuration? {yes, no}: ```yes```
-  - Enter the ip from the cluster you want to join: -> ```Ingresar la ip de la interfaz e0a del nodo 1```
+  - Enter the ip from the cluster you want to join: **```Ingresar la ip de la interfaz e0a del nodo 1```**
   - cluster show
   - network interface show
 
-    ingresar por ssh a la ip 100 de admin con admin y passwd
+  ### Disable snapshot root
+  - ```run -node cluster1-0* snap delete -a -f vol0```
+  - ```run -node cluster1-0* snap sched vol0 0 0 0```
+  - ```run -node cluster1-0* snap autodelete vol0 enabled``` 
+  - ```run -node cluster1-0* snap autodelete vol0 target_free_space 35``` 
+  ### Configuración de aggregate --REPASAR, SEGUIR COMPLETANDO!
+  - ```disk show``` **muestra los discos**
+  - ```disk assign -node cluster1-01 -all true``` **asigna todos los discos que no esten asignados**
+  - ```disk assign -node cluster1-02 -all true``` **asigna todos los discos que no esten asignados**
+  - ```storage aggregate add-disk -aggregate aggr0_cluster1_01 -diskcount 1```
+    - ```yes```
+    - ```yes```
+  - ```aggr show``` **Para listar los aggregate**
 
-  # Disable snapshot root
-  - run -node cluster1-0* snap delete -a -f vol0 
-  - run -node cluster1-0* snap sched vol0 0 0 0 
-  - run -node cluster1-0* snap autodelete vol0 enabled 
-  - run -node cluster1-0* snap autodelete vol0 target_free_space 35 
-
-  - disk show #muestra los discos
-  - disk assign -node cluster1-01 -all true # asigna todos los discos que no esten asignados
-  - disk assign -node cluster1-02 -all true # asigna todos los discos que no esten asignados
-  - storage aggregate add-disk -aggregate aggr0_cluster1_01 -diskcount 1
-    - yes
-    - yes
-  - aggr show
-
-  - storage aggregate add-disk -aggregate aggr0_cluster1_02 -diskcount 1
-    - yes
-    - yes
-  - aggr show
-  - vol size -vserver cluser1-01 -volume vol0 -new-size 2.3g
-  - aggr show
-  - vol size -vserver cluser1-02 -volume vol0 -new-size 2.3g
-  - aggr show
+  - ```storage aggregate add-disk -aggregate aggr0_cluster1_02 -diskcount 1```
+    - ```yes```
+    - ```yes```
+  - ```aggr show```
+  - ```vol size -vserver cluser1-01 -volume vol0 -new-size 2.3g```
+  - ```aggr show```
+  - ```vol size -vserver cluser1-02 -volume vol0 -new-size 2.3g```
+  - ```aggr show```
 
   # Actividad 1 EA2
   - aggr rename -aggregate aggr0_cluster1_01 -newname n1_aggr0
