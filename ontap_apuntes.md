@@ -82,7 +82,7 @@
   - ```run -node cluster1-0* snap sched vol0 0 0 0```
   - ```run -node cluster1-0* snap autodelete vol0 enabled``` 
   - ```run -node cluster1-0* snap autodelete vol0 target_free_space 35``` 
-  ### Configuración de aggregate --REPASAR, SEGUIR COMPLETANDO!
+  ### Configuración de aggregate --REPASAR, SEGUIR COMPLETANDO, Falta int e0d del nodo2!
   - ```disk show``` **muestra los discos**
   - ```disk assign -node cluster1-01 -all true``` **asigna todos los discos que no esten asignados**
   - ```disk assign -node cluster1-02 -all true``` **asigna todos los discos que no esten asignados**
