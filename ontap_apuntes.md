@@ -177,4 +177,18 @@ putty -> ssh -> authentication -> private key file for authentication y seleccio
 
 
 # Setup
-- 
+
+# Sábado 27/04
+## Actividad 2 EA2 CIFS & NFS
+
+**Modificar la puerta de administracion con la ip:** network interface modify -vserver {vserver name} -lif {logical interface (la de management)} -service-policy default-management
+
+> Crea un broadcast domain "DATA", considerando los puertos cluser1-01:e0d
+  - broadcast-domain show
+  - broadcast-domain remove-ports -broadcast-domain {nombre del broadcast} -ports cluster-01:e0d, cluster1-02:e0d
+  - broadcast-domain create -broadcast-domain {nombre del broadcast} -mtu 1500 -ports cluster-01:e0d, cluster1-02:e0d
+
+### **Crea unos aggregate de datos:**
+- Tiers ->
+- -> Add local tier: name n1_aggre1
+- -> raid group size 23
