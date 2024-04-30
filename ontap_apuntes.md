@@ -247,3 +247,24 @@ Diagrama
 
 ### **Crea unos aggregate de datos:**
 - Tiers ➡️ Add local tier: name n1_aggre1 ➡️ raid group size 23
+
+
+# 30/04 punto 3 Actividad 2 EA2
+
+- storage vms -> add -> name vsDATA -> Access Protocol, SMB/CIFS, NFS enable smb/cifs
+-> Agregamos el usuario Administrador pass Duoc.1234, sever name, como se llamara dentro del dominio la maquina, ADDomain duoc.local OU CN=Computers, name servers 192.168.150.136, habilitar NFS, Allow NFS Client access, add new rule, client spec 192.168.150.0/24 y habilitar todos los permisos excepto por anonymous, y los access protocol
+- cluster1-01 -> ip address 192.168.150.21 subnet mask -> 24 gateway 192.168.150.2 broadcast domain DATA
+- cluster1-02 ip 192.168.150.22 activar opcion use the same subnetmask, gateway, and broadcast domain for all following interfaces
+- save
+- edit nfs y solo dejar la version 3, deshabilitar las otras versiones.
+- Storage -> crea uno por defecto para su vserver (no tocar!), add volume, nfs export via nfs grantacces to host default
+- share via smb/cifs, name volr, grant access to user: Everyone o el user, permission read,save
+
+- ahora abrimos el linux Rhel8
+- mkdir /mnt/VOLR
+- mount -t nfs 192.168.150.21:/VOLR /mnt/VOLR
+- df -h para revisar los montajes
+- cd /mnt/VOLR
+- touch test.txt
+
+en windows, montar una unidad de red \\192.168.150.22\VOLR aqui solamente me deja leer pero no modificar
