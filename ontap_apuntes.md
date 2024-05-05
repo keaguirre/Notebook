@@ -133,9 +133,9 @@
   ## Agregar las licencias
   - Ingresar a la web de administracion del cluster en la ip ```.100```
   - Paso1:
-  ![Alt Text](./Assets/how_to_license1.gif)
+  ![intranet](./Assets/how_to_license1.gif)
   - Paso2:
-  ![Alt Text](./Assets/how_to_license2.gif)
+  ![intranet](./Assets/how_to_license2.gif)
   ### 01 Node
     ```
     YVUCRRRRYVHXCFABGAAAAAAAAAAA, 
@@ -167,19 +167,22 @@
     ILVFNUNFXMSMUCEZFAAAAAAAAAAA,
     SUOYOUNFXMSMUCEZFAAAAAAAAAAA,
     ```
-  - cluster -> overview -> edit cluster details -> click en ```...``` -> ntp server-> server1.duoc.local
 
-- ping -node cluster1-01 -destination server1.duoc.local
-  - responde server1.duoc.local is alive
-- ping -node cluster1-02 -destination server1.duoc.local
-  - responde server1.duoc.local is alive
+  ## Add NTP server
+  - Paso 1:
+   ![interface](./Assets/ntp_1.gif)
+  - Paso 2:
+   ![interface](./Assets/ntp_2.gif)
 
-- date # para checkear la hora correcta, y la zona horaria
-- timezone America/Santiago
-- date 2012 #ahi son las 20 con 12 mins, debido a que tenemos la hora corrida en base a la zona horaria
+- ```ping -node cluster1-01 -destination server1.duoc.local```
+  - responde server1.duoc.local is alive
+- ```ping -node cluster1-02 -destination server1.duoc.local```
+  - responde server1.duoc.local is alive
+- ```date #```-> para checkear la hora correcta
+- Checkear la zona horaria de los nodos en el cluster.
+- Definir la zona horaria ```timezone America/Santiago```
 
  ## Creacion de aggregate de datos
-
 - En la interfaz grafica:
   - Storage ➡️Tiers➡️Add local Tier o Add Cloud Tier en este caso el local: Te muestra una recomendacion para el aggregate
   - switch manual configuration ➡️ name: n1_aggr1, number of disks 11, raid-DP, raid group size 11➡️save
