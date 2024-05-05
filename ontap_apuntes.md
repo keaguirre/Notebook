@@ -129,8 +129,14 @@
   # Actividad 1 EA2
   - ```aggr rename -aggregate aggr0_cluster1_01 -newname n1_aggr0```
   - ```aggr rename -aggregate aggr0_cluster1_02 -newname n2_aggr0```
+
+  ## Agregar las licencias
   - Ingresar a la web de administracion del cluster en la ip ```.100```
-  ## 01 Node
+  - Paso1:
+  ![Alt Text](./Assets/how_to_licence1.gif)
+  - Paso2:
+  ![Alt Text](./Assets/how_to_licence2.gif)
+  ### 01 Node
     ```
     YVUCRRRRYVHXCFABGAAAAAAAAAAA, 
     WKQGSRRRYVHXCFABGAAAAAAAAAAA,  
@@ -146,7 +152,7 @@
     EJFDVRRRYVHXCFABGAAAAAAAAAAA,
     ```
 
-  ## 02 Node
+  ### 02 Node
     ```
     MHEYKUNFXMSMUCEZFAAAAAAAAAAA,
     KWZBMUNFXMSMUCEZFAAAAAAAAAAA, 
@@ -161,7 +167,6 @@
     ILVFNUNFXMSMUCEZFAAAAAAAAAAA,
     SUOYOUNFXMSMUCEZFAAAAAAAAAAA,
     ```
-  - settings -> licenses -> add -> [x] check 28 char legacy keys -> legacy keys -> paste
   - cluster -> overview -> edit cluster details -> click en ```...``` -> ntp server-> server1.duoc.local
 
 - ping -node cluster1-01 -destination server1.duoc.local
