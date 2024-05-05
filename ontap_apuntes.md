@@ -133,9 +133,9 @@
   ## Agregar las licencias
   - Ingresar a la web de administracion del cluster en la ip ```.100```
   - Paso1:
-  ![Alt Text](./Assets/how_to_licence1.gif)
+  ![Alt Text](./Assets/how_to_license1.gif)
   - Paso2:
-  ![Alt Text](./Assets/how_to_licence2.gif)
+  ![Alt Text](./Assets/how_to_license2.gif)
   ### 01 Node
     ```
     YVUCRRRRYVHXCFABGAAAAAAAAAAA, 
