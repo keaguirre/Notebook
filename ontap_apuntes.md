@@ -174,6 +174,7 @@
   - Paso 2:
    ![interface](./Assets/ntp_2.gif)
 
+## Probar conexión entre nodos, check hr, zona horaria
 - ```ping -node cluster1-01 -destination server1.duoc.local```
   - responde server1.duoc.local is alive
 - ```ping -node cluster1-02 -destination server1.duoc.local```
@@ -189,7 +190,6 @@
 
 - CLI:
   - ```aggr create -aggregate n2_aggr1 -maxraidsize 11 -diskcount 11 -raidtype raid_dp - node cluster1-02```
-
 
 ## Creacion de usuarios
 > Configurar el cluster con el objetivo de poder utilizar los usuarios del dominio para conectarnos al storage via SSH y por system manager, en lo especifico, permite que el administrador del dominio duoc\Administrador posea los mismos privilegios que
