@@ -128,8 +128,8 @@
 
   # Actividad 1 EA2
 > [!NOTE]
+> Siempre usar el https para entrar al panel de administracion del ontap 
 > Registre todas las licencias disponibles para ambos nodos del cluster.
-
   ## Agregar las licencias
   - Ingresar a la web de administracion del cluster en la ip ```.100```
   - Paso1:
@@ -166,7 +166,7 @@
   ILVFNUNFXMSMUCEZFAAAAAAAAAAA,
   SUOYOUNFXMSMUCEZFAAAAAAAAAAA,
   ```
-  
+
   ## 1. Renombrar aggr0
   ### Modifique el nombre por defecto del aggr0 de ambos nodos del cluster a los siguientes: “n1_aggr0” y “n2_aggr0”:
   - ```aggr rename -aggregate aggr0_cluster1_01 -newname n1_aggr0```
@@ -206,17 +206,20 @@
  - Cantidad de Discos: 11
 ### Desarrollo item 4:
 - En la interfaz grafica:
-  - Storage ➡️Tiers➡️Add local Tier o Add Cloud Tier en este caso el local: Te muestra una recomendacion para el aggregate
-  - switch manual configuration ➡️ name: n1_aggr1, number of disks 11, raid-DP, raid group size 11➡️save
+  - Storage ➡️Tiers➡️Add local Tier o Add Cloud Tier en este caso el local: Te muestra una recomendacion para el aggregate ➡️ switch manual configuration ➡️ name: n1_aggr1, number of disks 11, raid-DP, raid group size 11➡️save
+   ![interface](./Assets/aggr_gui1.gif)
+   ![interface](./Assets/aggr_gui2.gif)
 
 - CLI:
-  - ```aggr create -aggregate n2_aggr1 -maxraidsize 11 -diskcount 11 -raidtype raid_dp - node cluster1-02```
 
-## Creacion de usuarios
-> Configurar el cluster con el objetivo de poder utilizar los usuarios del dominio para conectarnos al storage via SSH y por system manager, en lo especifico, permite que el administrador del dominio duoc\Administrador posea los mismos privilegios que
+  ```aggr create -aggregate n2_aggr1 -maxraidsize 11 -diskcount 11 -raidtype raid_dp - node cluster1-02```
 
-> [!NOTE]
-> Siempre usar el https para entrar al panel de administracion del ontap 
+## 5. Creacion de usuarios
+
+### 5.1 
+> Configurar el cluster con el objetivo de poder utilizar los usuarios del dominio para conectarnos al storage vía SSH y por System Manager. En lo específico, permite que el administrador del dominio (DUOC\Administrador) posea los mismos privilegios de administración que el usuario “admin”.
+### 5.2
+> Cree una llave privada/pública SSH, con el objetivo de poder loguearnos al usuario “admin” utilizando dicha llave y que no solicite contraseña.
 
   Storage ➡️ Storage VMs ➡️ provisionan un protocolo de almacenamiento como NFS o CIFS
   enable storage VMs ➡️
