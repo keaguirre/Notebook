@@ -127,8 +127,8 @@
   - ```aggr show```
 
   # Actividad 1 EA2
-  - ```aggr rename -aggregate aggr0_cluster1_01 -newname n1_aggr0```
-  - ```aggr rename -aggregate aggr0_cluster1_02 -newname n2_aggr0```
+> [!NOTE]
+> Registre todas las licencias disponibles para ambos nodos del cluster.
 
   ## Agregar las licencias
   - Ingresar a la web de administracion del cluster en la ip ```.100```
@@ -136,40 +136,47 @@
   ![intranet](./Assets/how_to_license1.gif)
   - Paso2:
   ![intranet](./Assets/how_to_license2.gif)
-  ### 01 Node
-    ```
-    YVUCRRRRYVHXCFABGAAAAAAAAAAA, 
-    WKQGSRRRYVHXCFABGAAAAAAAAAAA,  
-    SOHOURRRYVHXCFABGAAAAAAAAAAA,
-    YBSOYRRRYVHXCFABGAAAAAAAAAAA,
-    KQSRRRRRYVHXCFABGAAAAAAAAAAA,
-    MBXNQRRRYVHXCFABGAAAAAAAAAAA,
-    QDDSVRRRYVHXCFABGAAAAAAAAAAA,
-    CYAHWRRRYVHXCFABGAAAAAAAAAAA,
-    GUJZTRRRYVHXCFABGAAAAAAAAAAA,
-    OSYVWRRRYVHXCFABGAAAAAAAAAAA,
-    UZLKTRRRYVHXCFABGAAAAAAAAAAA,
-    EJFDVRRRYVHXCFABGAAAAAAAAAAA,
-    ```
+  ### 01 Node licenses
+  ```
+  YVUCRRRRYVHXCFABGAAAAAAAAAAA, 
+  WKQGSRRRYVHXCFABGAAAAAAAAAAA,  
+  SOHOURRRYVHXCFABGAAAAAAAAAAA,
+  YBSOYRRRYVHXCFABGAAAAAAAAAAA,
+  KQSRRRRRYVHXCFABGAAAAAAAAAAA,
+  MBXNQRRRYVHXCFABGAAAAAAAAAAA,
+  QDDSVRRRYVHXCFABGAAAAAAAAAAA,
+  CYAHWRRRYVHXCFABGAAAAAAAAAAA,
+  GUJZTRRRYVHXCFABGAAAAAAAAAAA,
+  OSYVWRRRYVHXCFABGAAAAAAAAAAA,
+  UZLKTRRRYVHXCFABGAAAAAAAAAAA,
+  EJFDVRRRYVHXCFABGAAAAAAAAAAA,
+  ```
+  ### 02 Node licenses
+  ```
+  MHEYKUNFXMSMUCEZFAAAAAAAAAAA,
+  KWZBMUNFXMSMUCEZFAAAAAAAAAAA, 
+  GARJOUNFXMSMUCEZFAAAAAAAAAAA,
+  MNBKSUNFXMSMUCEZFAAAAAAAAAAA,
+  YBCNLUNFXMSMUCEZFAAAAAAAAAAA,
+  ANGJKUNFXMSMUCEZFAAAAAAAAAAA,
+  EPMNPUNFXMSMUCEZFAAAAAAAAAAA,
+  QJKCQUNFXMSMUCEZFAAAAAAAAAAA,
+  UFTUNUNFXMSMUCEZFAAAAAAAAAAA,
+  CEIRQUNFXMSMUCEZFAAAAAAAAAAA,
+  ILVFNUNFXMSMUCEZFAAAAAAAAAAA,
+  SUOYOUNFXMSMUCEZFAAAAAAAAAAA,
+  ```
+  
+  ## 1. Renombrar aggr0
+  ### Modifique el nombre por defecto del aggr0 de ambos nodos del cluster a los siguientes: “n1_aggr0” y “n2_aggr0”:
+  - ```aggr rename -aggregate aggr0_cluster1_01 -newname n1_aggr0```
+  - ```aggr rename -aggregate aggr0_cluster1_02 -newname n2_aggr0```
 
-  ### 02 Node
-    ```
-    MHEYKUNFXMSMUCEZFAAAAAAAAAAA,
-    KWZBMUNFXMSMUCEZFAAAAAAAAAAA, 
-    GARJOUNFXMSMUCEZFAAAAAAAAAAA,
-    MNBKSUNFXMSMUCEZFAAAAAAAAAAA,
-    YBCNLUNFXMSMUCEZFAAAAAAAAAAA,
-    ANGJKUNFXMSMUCEZFAAAAAAAAAAA,
-    EPMNPUNFXMSMUCEZFAAAAAAAAAAA,
-    QJKCQUNFXMSMUCEZFAAAAAAAAAAA,
-    UFTUNUNFXMSMUCEZFAAAAAAAAAAA,
-    CEIRQUNFXMSMUCEZFAAAAAAAAAAA,
-    ILVFNUNFXMSMUCEZFAAAAAAAAAAA,
-    SUOYOUNFXMSMUCEZFAAAAAAAAAAA,
-    ```
-
-  ## Add NTP server
-  - Paso 1:
+  ## 2. Configuración DNS Server
+  - Configure los servidores DNS por cada uno de los nodos que componen el cluster. Configure el siguiente DNS: **```192.168.150.136```** o la **ip** de nuestro Windows Server.
+   ![interface](./Assets/dns.gif)
+  ## 3. Configuración de Fecha y Hora (NTP Server)
+  - Configure la fecha y hora del sistema (cluster), considerando agregar como servidor NTP Server: **```server1.duoc.local```**.
    ![interface](./Assets/ntp_1.gif)
   - Paso 2:
    ![interface](./Assets/ntp_2.gif)
@@ -183,7 +190,21 @@
 - Checkear la zona horaria de los nodos en el cluster.
 - Definir la zona horaria ```timezone America/Santiago```
 
- ## Creacion de aggregate de datos
+## 4) Creacion de aggregate de datos
+### Cree los siguientes aggregate de datos, considerando la siguiente información:
+### Aggregate 1
+ - Nombre del Aggregate: n1_aggr1
+ - Nodo Cluster: cluster1-01
+ - Tipo de Raid: RAID-DP
+ - Raid Size: 11
+ - Cantidad de Discos: 11
+### Aggregate 2
+ - Nombre del Aggregate: n2_aggr1
+ - Nodo Cluster: cluster1-02
+ - Tipo de Raid: RAID-DP
+ - Raid Size: 11
+ - Cantidad de Discos: 11
+### Desarrollo item 4:
 - En la interfaz grafica:
   - Storage ➡️Tiers➡️Add local Tier o Add Cloud Tier en este caso el local: Te muestra una recomendacion para el aggregate
   - switch manual configuration ➡️ name: n1_aggr1, number of disks 11, raid-DP, raid group size 11➡️save
