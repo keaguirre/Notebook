@@ -219,26 +219,7 @@
 ### 5.1 
 > Configurar el cluster con el objetivo de poder utilizar los usuarios del dominio para conectarnos al storage vía SSH y por System Manager. En lo específico, permite que el administrador del dominio (DUOC\Administrador) posea los mismos privilegios de administración que el usuario “admin”.
 
-  1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ enable SMB/CIFS, NFS ✅.
-  2. Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```pw del usuario``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
-  3. DNS Details ➡️ Domains: ```duoc.local``` ➡️ Name servers: ```192.168.150.136``` ➡️ ✅ Enable NFS.
-  4. cluster1-01, se define una ip para redirigir el trafico cuando hay alto trafico ➡️ IP Address: ```192.168.150.111``` Subnet mask: ```24``` Gateway: ```192.168.150.2```. ✅ Use the same subnet mask and gateway for all the following interfaces. cluster1-02: IP Address: ```192.168.150.112```
-  5. Save 
-
-  6. En el panel de ```Administrador del servidor``` en el WServer ➡️ duoc.local(Dominio especificado antes) ➡️ Computers(OU especificado antes) ➡️ Veremos el equipo llamado ```nas```
-  
-  7. Storage ➡️ Volumes ➡️ Add ➡️ Rellenar los parametros segun requerimiento, ✅ Share via SMB/CIFS ➡️ More options ➡️ Access Permissions: segun requerimiento, para el ejemplo: Grant Access To user(s): ```Everyone```, Permission: ```Full Control```
-  
-  8. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
-
-> [!NOTE] Network interface
-> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.111, subnet 24, gateway 192.168.150.2
-> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.112, subnet 24, gateway 192.168.150.2
-
-### 5.2
-> Cree una llave privada/pública SSH, con el objetivo de poder loguearnos al usuario “admin” utilizando dicha llave y que no solicite contraseña.
-
-### Asignar users al cluster en la consola
+#### Asignar users al cluster en la consola
 - ``` security login show``` para revisar los usuarios del cluster con sus detalles
 - ``` security login domain-tunel show```
 - ``` security login domain-tunel create -vserver svm0```
@@ -246,52 +227,115 @@
 - ``` security login create -user-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin```
 - ``` security login show```
 - ``` testeo con otra ventana en el putty -> DUOC\Administrator -> Duoc.1234```
-
-## Los otros permisos
 - ```security login create -user-or-group-name DUOC\Administrator -application http -authentication-method domain -role readonly```
 - ```security login create -user-or-group-name DUOC\Administrator -application ontapi -authentication-method domain -role readonly```
 
-- luego puedo puedo montar una unidad de red usando nas.duoc.local\paso que es el volumen creado dentro
+### 5.2
+> Cree una llave privada/pública SSH, con el objetivo de poder loguearnos al usuario “admin” utilizando dicha llave y que no solicite contraseña.
 
-## generar las llaves para ssh
-- instalar putty key generator
-- generate con generate y mover el mouse que usa esos parametros para definir la llave
-- save private key y la dejamos en el escritorio de donde nos estamos conectando por ssh
-- tomar todo el texto de la llave
-- ir al storate
-- security login publickey show
-- security login create -user-or-group-name admin -application ssh -authentication-method publickey -role admin #el indice es para generar varias claves publicas para un mismo usuario
-- security login publickey create -username admin -index 0 "texto llave" -comment administradorKevin
+#### generar las llaves para ssh
+1. instalar putty key generator
+2. generar con ```generate``` y mover el mouse que usa esos parametros para definir la llave
+3. ```Save private key``` y la dejamos en el escritorio de donde nos estamos conectando por ssh
+4. tomar todo el texto de la llave
+5. ir a la consola
+6. ```security login publickey show```
+7. ```security login create -user-or-group-name admin -application ssh -authentication-method publickey -role admin``` #el indice es para generar varias claves publicas para un mismo usuario
+8. ```security login publickey create -username admin -index 0 "texto llave" -comment administradorKevin```
 
-putty ➡️ ssh ➡️ authentication ➡️ private key file for authentication y selecciono el archivo si en connection ➡️ data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
-
-
-# Setup
+1. PuTTY ➡️ Connection ➡️ SSH ➡️ Auth ➡️ Private key file for authentication y seleccionar el archivo
+2. connection ➡️ data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
 
 # Sábado 27/04
-## Actividad 2 EA2 CIFS & NFS
-Diagrama
+# Actividad 2 EA2 CIFS & NFS
 ![Diagrama](./Assets/A2EA2.png)
+
+## Creación de VServer (SVM) NFS CIFS
+
+1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ enable SMB/CIFS, NFS ✅.
+2. Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```pw del usuario``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
+3. DNS Details ➡️ Domains: ```duoc.local``` ➡️ Name servers: ```192.168.150.136``` ➡️ ✅ Enable NFS.
+4. cluster1-01, se define una ip para redirigir el trafico cuando hay alto trafico ➡️ IP Address: ```192.168.150.111``` Subnet mask: ```24``` Gateway: ```192.168.150.2```. ✅ Use the same subnet mask and gateway for all the following interfaces. cluster1-02: IP Address: ```192.168.150.112```
+5. Save 
+
+6. En el panel de ```Administrador del servidor``` en el WServer ➡️ duoc.local(Dominio especificado antes) ➡️ Computers(OU especificado antes) ➡️ Veremos el equipo llamado ```nas```
+
+7. Storage ➡️ Volumes ➡️ Add ➡️ Rellenar los parametros segun requerimiento, ✅ Share via SMB/CIFS ➡️ More options ➡️ Access Permissions: segun requerimiento, para el ejemplo: Grant Access To user(s): ```Everyone```, Permission: ```Full Control```
+
+8. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
+
+> [!NOTE] Network interface
+> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.111, subnet 24, gateway 192.168.150.2
+> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.112, subnet 24, gateway 192.168.150.2
 
 **Modificar la puerta de administracion con la ip:** 
 - ```network interface modify -vserver {vserver name} -lif {logical interface (la de management)} -service-policy default-management```
 
-> Crea un broadcast domain "DATA", considerando los puertos cluser1-01:e0d
+## 1. Crea un broadcast domain "DATA"
+> Crea un broadcast domain "DATA"considerando los puertos cluser1-01:e0d como miembros
   - ```broadcast-domain show```
   - ```broadcast-domain remove-ports -broadcast-domain {nombre del broadcast} -ports cluster-01:e0d, cluster1-02:e0d```
   - ```broadcast-domain create -broadcast-domain {nombre del broadcast} -mtu 1500 -ports cluster-01:e0d, cluster1-02:e0d```
 
-### **Crea unos aggregate de datos:**
+## 2.  **Crea unos aggregate de datos:**
+> Cree un aggregate de datos con 23 discos y “raid size” 23, en cada uno de los nodos del cluster.  El nombre de los aggregate debe ser: n1_aggr1 (cluster1-01) y n2_aggr1 (cluster1-02).
 - Tiers ➡️ Add local tier: name n1_aggre1 ➡️ raid group size 23
 
 
-# 30/04 punto 3 Actividad 2 EA2
+# 30/04
+## 3. Cree un vserver (SVM) llamado “vsDATA”
+> Cree un vserver (SVM) llamado “vsDATA”, con el objetivo de provisionar datos vía NFS y CIFS. Para esto considere:
+- Nombre SVM: **```vsDATA```**
+- Data Protocols: ```NFS, CIFS```
+- Broadcast Domain: ```DATA```
+- CIFS NAME: ```nas```
+- Active Directory: ```server1.duoc.local``` (```192.168.150.136```)
+- Admin Name:	```Administrador```
+- Admin Pass: ```Duoc.1234```
 
-- storage vms -> add -> name vsDATA -> Access Protocol, SMB/CIFS, NFS enable smb/cifs
--> Agregamos el usuario Administrador pass Duoc.1234, sever name, como se llamara dentro del dominio la maquina, ADDomain duoc.local OU CN=Computers, name servers 192.168.150.136, habilitar NFS, Allow NFS Client access, add new rule, client spec 192.168.150.0/24 y habilitar todos los permisos excepto por anonymous, y los access protocol
-- cluster1-01 -> ip address 192.168.150.21 subnet mask -> 24 gateway 192.168.150.2 broadcast domain DATA
-- cluster1-02 ip 192.168.150.22 activar opcion use the same subnetmask, gateway, and broadcast domain for all following interfaces
-- save
+### Cree los siguiente volúmenes, asociados al storage virtual machine vsDATA:
+```	
+Nombre  Tamaño  Export Rules
+------  ------  -----------------------	                  
+VOLR		2GB		  Read Write  (0.0.0.0/0)      
+VOLW		3GB		  Read Write  (0.0.0.0/0)         
+SHARED	4GB		  Read Write  (0.0.0.0/0)        
+```
+
+### En un servidor Linux (RHEL), configure los siguiente puntos de montaje, con el objetivo de utilizar los volúmenes recién creados, cada vez que se inicia el sistema operativo (montaje automático).
+```
+Punto Montaje (RHEL)	NFS Export
+/mnt/VOLR			<data_lif_nfs>:/VOLR
+/mnt/VOLW			<data_lif_nfs>:/VOLW
+/mnt/SHARED			<data_lif_nfs>:/SHARED
+```
+### Utilizando el Active Directory W2016 (duoc.local), configure el protocolo CIFS en el vserver vsDATA y así compartir  
+```
+Share			Junction- Path		Permission
+VOLR			/UNIX/VOLR			Everyone (Read Only)
+VOLW			/UNIX/VOLW			Everyone (Read Only)
+SHARED		/WINDOWS/CIFS		Everyone (Read Only)
+```
+### Mapeo de Recursos de Red:
+```
+\\<data_lif_cifs>\VOLR
+\\<data_lif_cifs>\VOLW
+\\<data_lif_cifs>\SHARED
+```
+
+1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ enable SMB/CIFS, NFS ✅.
+2. name vsDATA ➡️ Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```Duoc.1234``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
+3. DNS Details ➡️ Domains: ```duoc.local``` ➡️ Name servers: ```192.168.150.136``` ➡️ ✅ Enable NFS.
+4. Add new rule, client spec 192.168.150.0/24 y habilitar todos los permisos excepto por anonymous y los access protocol
+5. cluster1-01, se define una ip para redirigir el trafico cuando hay alto trafico ➡️ IP Address: ```192.168.150.111``` Subnet mask: ```24``` Gateway: ```192.168.150.2``` Broadcast Domain: DATA. ✅ Use the same subnet mask and gateway for all the following interfaces. cluster1-02: IP Address: ```192.168.150.112```
+5. Save 
+
+7. En el panel de ```Administrador del servidor``` en el WServer ➡️ duoc.local(Dominio especificado antes) ➡️ Computers(OU especificado antes) ➡️ Veremos el equipo llamado ```nas```
+
+8. Storage ➡️ Volumes ➡️ Add ➡️ Rellenar los parametros segun requerimiento, ✅ Share via SMB/CIFS ➡️ More options ➡️ Access Permissions: segun requerimiento, para el ejemplo: Grant Access To user(s): ```Everyone```, Permission: ```Full Control```
+
+9. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
+
 - edit nfs y solo dejar la version 3, deshabilitar las otras versiones.
 - Storage -> crea uno por defecto para su vserver (no tocar!), add volume, nfs export via nfs grantacces to host default
 - share via smb/cifs, name volr, grant access to user: Everyone o el user, permission read,save
