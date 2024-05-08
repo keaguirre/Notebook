@@ -104,7 +104,7 @@
   ### Disable root snapshots
   - ```run -node cluster1-0* snap delete -a -f vol0```
   - ```run -node cluster1-0* snap sched vol0 0 0 0```
-  - ```run -node cluster1-0* snap autodelete vol0 enabled``` 
+  - ```run -node cluster1-0* snap autodelete vol0 on``` 
   - ```run -node cluster1-0* snap autodelete vol0 target_free_space 35``` 
   ### Configuración de aggregate
   - ```disk show``` **muestra los discos**
