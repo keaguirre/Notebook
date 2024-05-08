@@ -244,6 +244,12 @@
 1. PuTTY ➡️ Connection ➡️ SSH ➡️ Auth ➡️ Private key file for authentication y seleccionar el archivo
 2. connection ➡️ data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
 
+#### Generar las claves en linux
+  ```ssh-keygen -t rsa -b 2048```
+
+  ``` cat ~/.ssh/id_rsa.pub```
+  - Copiar desde ssh hasta el final del string omitiendo el user
+  
 # Sábado 27/04
 # Actividad 2 EA2 CIFS & NFS
 ![Diagrama](./Assets/A2EA2.png)
