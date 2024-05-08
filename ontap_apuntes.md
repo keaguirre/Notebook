@@ -37,7 +37,6 @@
   Node            Health  Elegibility
   --------------- ------- -----------
   cluster1-01     true    true
-  cluster1-02     true    true
   2 entries were displayed
   ```
 - ```network interface show```
