@@ -147,7 +147,7 @@
   GUJZTRRRYVHXCFABGAAAAAAAAAAA,
   OSYVWRRRYVHXCFABGAAAAAAAAAAA,
   UZLKTRRRYVHXCFABGAAAAAAAAAAA,
-  EJFDVRRRYVHXCFABGAAAAAAAAAAA,
+  EJFDVRRRYVHXCFABGAAAAAAAAAAA
   ```
   ### 02 Node licenses
   ```
@@ -162,7 +162,7 @@
   UFTUNUNFXMSMUCEZFAAAAAAAAAAA,
   CEIRQUNFXMSMUCEZFAAAAAAAAAAA,
   ILVFNUNFXMSMUCEZFAAAAAAAAAAA,
-  SUOYOUNFXMSMUCEZFAAAAAAAAAAA,
+  SUOYOUNFXMSMUCEZFAAAAAAAAAAA
   ```
 
   ## 1. Renombrar aggr0
@@ -219,10 +219,10 @@
 
 #### Asignar users al cluster en la consola
 - ``` security login show``` para revisar los usuarios del cluster con sus detalles
-- ``` security login domain-tunel show```
-- ``` security login domain-tunel create -vserver svm0```
-- ``` security login domain-tunel show```
-- ``` security login create -user-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin```
+- ``` security login domain-tunnel show```
+- ``` security login domain-tunnel create -vserver svm0```
+- ``` security login domain-tunnel show```
+- ``` security login create -usner-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin```
 - ``` security login show```
 - ``` testeo con otra ventana en el putty -> DUOC\Administrator -> Duoc.1234```
 - ```security login create -user-or-group-name DUOC\Administrator -application http -authentication-method domain -role readonly```
