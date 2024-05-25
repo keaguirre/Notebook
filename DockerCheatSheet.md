@@ -215,3 +215,6 @@ The file or directory does not need to exist on the Docker host already. It is c
 
 -------------------------------------
 - docker run -it -w /app --name 01-app-node ubuntu:22.04
+
+### Run bash in python container
+ docker run --name [container-name] -a stdin -a stdout -t -i [image-name] /bin/bash
