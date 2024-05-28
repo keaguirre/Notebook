@@ -228,6 +228,10 @@
 - ``` testeo con otra ventana en el putty -> DUOC\Administrador -> Duoc.1234```
 - ```security login create -user-or-group-name DUOC\Administrador -application http -authentication-method domain -role readonly```
 - ```security login create -user-or-group-name DUOC\Administrador -application ontapi -authentication-method domain -role readonly```
+- Conectar desde windows PWS: ```ssh admin@192.168.150.100``` ➡️ password ```netap123```
+  - En caso de que haya un problema borrar los archivos: ```known_hosts``` y ```known_hosts.old``` desde la carpeta ```C:\Users\[usuario_actual]\.ssh``` y salir con exit
+- Conectar desde Linux: ```ssh admin@192.168.150.100``` ➡️ password ```netap123```
+  - En caso de que haya un problema borrar los archivos: rm /home/keaguirre/.ssh/known_hosts y rm /home/keaguirre/.ssh/known_hosts.old
 
 ### 5.2
 > Cree una llave privada/pública SSH, con el objetivo de poder loguearnos al usuario “admin” utilizando dicha llave y que no solicite contraseña.
