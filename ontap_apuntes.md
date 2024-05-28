@@ -257,8 +257,8 @@
 
 ## Creación de VServer (SVM) NFS CIFS
 
-1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ enable SMB/CIFS, NFS ✅.
-2. Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```pw del usuario``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
+1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ + Add ➡️ Storage VM Name: svm0 ➡️ Enable SMB/CIFS ➡️ Enable NFS ✅.
+2. Enable SMB/CIFS: Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```pw del usuario``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
 3. DNS Details ➡️ Domains: ```duoc.local``` ➡️ Name servers: ```192.168.150.136``` ➡️ ✅ Enable NFS.
 4. cluster1-01, se define una ip para redirigir el trafico cuando hay alto trafico ➡️ IP Address: ```192.168.150.111``` Subnet mask: ```24``` Gateway: ```192.168.150.2```. ✅ Use the same subnet mask and gateway for all the following interfaces. cluster1-02: IP Address: ```192.168.150.112```
 5. Save 
