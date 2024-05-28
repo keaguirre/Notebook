@@ -71,7 +71,7 @@
   - Enter the node management interface port: ```e0c```
   - Enter the node management interface ip address: ```192.168.150.102```
   - Enter the node management interface netmask: ```255.255.255.0```
-  - Enter the node management interface default gateway: ```192.168.150.102```
+  - Enter the node management interface default gateway: ```192.168.150.2```
   - Otherwise press Enter to complete cluster setup using the command line interface: <kbd>enter</kbd>
   - Do you want to create a new cluster or join an existing cluster?: ```join```
   - Do you want to use this configuration? {yes, no}: ```yes```
