@@ -223,11 +223,11 @@
 - ``` security login domain-tunnel show```
 - ``` security login domain-tunnel create -vserver svm0```
 - ``` security login domain-tunnel show```
-- ``` security login create -user-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin```
+- ``` security login create -user-or-group-name DUOC\Administrador -application ssh -authentication-method domain -role admin```
 - ``` security login show```
-- ``` testeo con otra ventana en el putty -> DUOC\Administrator -> Duoc.1234```
-- ```security login create -user-or-group-name DUOC\Administrator -application http -authentication-method domain -role readonly```
-- ```security login create -user-or-group-name DUOC\Administrator -application ontapi -authentication-method domain -role readonly```
+- ``` testeo con otra ventana en el putty -> DUOC\Administrador -> Duoc.1234```
+- ```security login create -user-or-group-name DUOC\Administrador -application http -authentication-method domain -role readonly```
+- ```security login create -user-or-group-name DUOC\Administrador -application ontapi -authentication-method domain -role readonly```
 
 ### 5.2
 > Cree una llave privada/pública SSH, con el objetivo de poder loguearnos al usuario “admin” utilizando dicha llave y que no solicite contraseña.
