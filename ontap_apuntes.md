@@ -187,6 +187,7 @@
 - ```date #```-> para checkear la hora correcta
 - Checkear la zona horaria de los nodos en el cluster.
 - Definir la zona horaria ```timezone America/Santiago```
+-  Definir la fecha y hora manualmente formato fecha "mm/dd/yy" hh:mm:ss :```cluster date modify -date "01/01/2011 01:00:00"``` 
 
 ## 4) Creacion de aggregate de datos
 ### Cree los siguientes aggregate de datos, considerando la siguiente información:
