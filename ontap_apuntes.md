@@ -231,29 +231,41 @@
 - Conectar desde windows PWS: ```ssh admin@192.168.150.100``` ➡️ password ```netap123```
   - En caso de que haya un problema borrar los archivos: ```known_hosts``` y ```known_hosts.old``` desde la carpeta ```C:\Users\[usuario_actual]\.ssh``` y salir con exit
 - Conectar desde Linux: ```ssh admin@192.168.150.100``` ➡️ password ```netap123```
-  - En caso de que haya un problema borrar los archivos: rm /home/keaguirre/.ssh/known_hosts y rm /home/keaguirre/.ssh/known_hosts.old
+  - En caso de que haya un problema borrar los archivos: rm /home/[username]/.ssh/known_hosts y rm /home/keaguirre/.ssh/known_hosts.old
 
 ### 5.2
 > Cree una llave privada/pública SSH, con el objetivo de poder loguearnos al usuario “admin” utilizando dicha llave y que no solicite contraseña.
 
-#### generar las llaves para ssh
+#### generar las llaves para ssh con PuTTY
 1. instalar putty key generator
 2. generar con ```generate``` y mover el mouse que usa esos parametros para definir la llave
 3. ```Save private key``` y la dejamos en el escritorio de donde nos estamos conectando por ssh
 4. tomar todo el texto de la llave
+   
+#### generar las llaves para ssh con PWS
+- ```ssh-keygen -t rsa -b 2048```
+- Generará las claves id_rsa y id_rsa.pub en la ruta ```C:\Users\[usuario_actual]\.ssh``` y por defecto PWS buscará en esa ruta
+- Copiar desde ssh hasta el final del string omitiendo el user para insertar la llave en ontap
+- Conectar desde windows PWS: ```ssh admin@192.168.150.100```
+
+#### Generar las claves en linux
+  ```ssh-keygen -t rsa -b 2048```
+  ``` cat ~/.ssh/id_rsa.pub```
+  - Copiar desde ssh hasta el final del string omitiendo el user para insertar la llave en ontap
+
 5. ir a la consola
 6. ```security login publickey show```
 7. ```security login create -user-or-group-name admin -application ssh -authentication-method publickey -role admin``` #el indice es para generar varias claves publicas para un mismo usuario
 8. ```security login publickey create -username admin -index 0 "texto llave" -comment administradorKevin```
 
+
+### Conectar desde windows PWS: ```ssh admin@192.168.150.100``` ➡️ password ```netap123```
+  - En caso de que haya un problema borrar los archivos: ```known_hosts``` y ```known_hosts.old``` desde la carpeta ```C:\Users\[usuario_actual]\.ssh``` y salir con exit
+### Conectar desde Linux: ```ssh admin@192.168.150.100``` ➡️ password ```netap123```
+  - En caso de que haya un problema borrar los archivos: rm /home/[username]/.ssh/known_hosts y rm /home/keaguirre/.ssh/known_hosts.old
+
 1. PuTTY ➡️ Connection ➡️ SSH ➡️ Auth ➡️ Private key file for authentication y seleccionar el archivo
 2. connection ➡️ data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
-
-#### Generar las claves en linux
-  ```ssh-keygen -t rsa -b 2048```
-
-  ``` cat ~/.ssh/id_rsa.pub```
-  - Copiar desde ssh hasta el final del string omitiendo el user
   
 # Sábado 27/04
 # Actividad 2 EA2 CIFS & NFS
