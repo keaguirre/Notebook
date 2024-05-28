@@ -223,7 +223,7 @@
 - ``` security login domain-tunnel show```
 - ``` security login domain-tunnel create -vserver svm0```
 - ``` security login domain-tunnel show```
-- ``` security login create -usner-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin```
+- ``` security login create -user-or-group-name DUOC\Administrator -application ssh -authentication-method domain -role admin```
 - ``` security login show```
 - ``` testeo con otra ventana en el putty -> DUOC\Administrator -> Duoc.1234```
 - ```security login create -user-or-group-name DUOC\Administrator -application http -authentication-method domain -role readonly```
