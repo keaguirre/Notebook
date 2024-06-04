@@ -49,6 +49,10 @@
 -	```shell
 	sudo apt-get install terraform
 	```
+9. Check Terraform install
+-	```shell
+	terraform --version
+	```
 
 # Install AWS CLI
 - [AWS CLI Install](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
