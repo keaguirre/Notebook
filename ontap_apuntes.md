@@ -228,7 +228,7 @@
 
 7. Storage ➡️ Volumes ➡️ Add ➡️ Rellenar los parametros segun requerimiento, ✅ Share via SMB/CIFS ➡️ More options ➡️ Access Permissions: segun requerimiento, para el ejemplo: Grant Access To user(s): ```Everyone```, Permission: ```Full Control```
 
-8. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
+8. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```\\192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
 
 > [!NOTE] 
 > Network interface cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.111, subnet 24, gateway 192.168.150.2
