@@ -212,6 +212,30 @@
 - CLI:
 
   ```aggr create -aggregate n2_aggr1 -maxraidsize 11 -diskcount 11 -raidtype raid_dp - node cluster1-02```
+  
+# Actividad 2 EA2 CIFS & NFS
+![Diagrama](./Assets/A2EA2.png)
+
+## Creación de VServer (SVM) NFS CIFS
+
+1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ + Add ➡️ Storage VM Name: svm0 ➡️ Enable SMB/CIFS ➡️ Enable NFS ✅.
+2. Enable SMB/CIFS: Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```pw del usuario``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
+3. DNS Details ➡️ Domains: ```duoc.local``` ➡️ Name servers: ```192.168.150.136``` ➡️ ✅ Enable NFS.
+4. cluster1-01, se define una ip para redirigir el trafico cuando hay alto trafico ➡️ IP Address: ```192.168.150.111``` Subnet mask: ```24``` Gateway: ```192.168.150.2```. ✅ Use the same subnet mask and gateway for all the following interfaces. cluster1-02: IP Address: ```192.168.150.112```
+5. Save 
+
+6. En el panel de ```Administrador del servidor``` en el WServer ➡️ duoc.local(Dominio especificado antes) ➡️ Computers(OU especificado antes) ➡️ Veremos el equipo llamado ```nas```
+
+7. Storage ➡️ Volumes ➡️ Add ➡️ Rellenar los parametros segun requerimiento, ✅ Share via SMB/CIFS ➡️ More options ➡️ Access Permissions: segun requerimiento, para el ejemplo: Grant Access To user(s): ```Everyone```, Permission: ```Full Control```
+
+8. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
+
+> [!NOTE] 
+> Network interface cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.111, subnet 24, gateway 192.168.150.2
+> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.112, subnet 24, gateway 192.168.150.2
+
+**Modificar la puerta de administracion con la ip:** 
+- ```network interface modify -vserver {vserver name} -lif {logical interface (la de management)} -service-policy default-management```
 
 ## 5. Creacion de usuarios
 
@@ -266,31 +290,6 @@
 
 1. PuTTY ➡️ Connection ➡️ SSH ➡️ Auth ➡️ Private key file for authentication y seleccionar el archivo
 2. connection ➡️ data agrego el nombre del user, solo con seleccionar el perfil y conecta sin pedir user ni passwd
-  
-# Sábado 27/04
-# Actividad 2 EA2 CIFS & NFS
-![Diagrama](./Assets/A2EA2.png)
-
-## Creación de VServer (SVM) NFS CIFS
-
-1. Storage ➡️ Storage VMs provisionan un protocolo de almacenamiento como NFS o CIFS ➡️ + Add ➡️ Storage VM Name: svm0 ➡️ Enable SMB/CIFS ➡️ Enable NFS ✅.
-2. Enable SMB/CIFS: Administrator name: ```Administrador``` (Usuario de AD) ➡️ Password: ```pw del usuario``` ➡️ Server name (Nombre del VMServer): ```nas``` ➡️ Active Directory Domain: ```duoc.local``` ➡️ Organizational Unit: ```CN=Computers```
-3. DNS Details ➡️ Domains: ```duoc.local``` ➡️ Name servers: ```192.168.150.136``` ➡️ ✅ Enable NFS.
-4. cluster1-01, se define una ip para redirigir el trafico cuando hay alto trafico ➡️ IP Address: ```192.168.150.111``` Subnet mask: ```24``` Gateway: ```192.168.150.2```. ✅ Use the same subnet mask and gateway for all the following interfaces. cluster1-02: IP Address: ```192.168.150.112```
-5. Save 
-
-6. En el panel de ```Administrador del servidor``` en el WServer ➡️ duoc.local(Dominio especificado antes) ➡️ Computers(OU especificado antes) ➡️ Veremos el equipo llamado ```nas```
-
-7. Storage ➡️ Volumes ➡️ Add ➡️ Rellenar los parametros segun requerimiento, ✅ Share via SMB/CIFS ➡️ More options ➡️ Access Permissions: segun requerimiento, para el ejemplo: Grant Access To user(s): ```Everyone```, Permission: ```Full Control```
-
-8. Ir a equipo cliente conectado al dominio, Este equipo, Click derecho ➡️ Conectar a unidad de red... ➡️ Carpeta: ```192.168.150.111\volume_name```➡️ Finalizar. Lo mismo sirve para la IP ```.112``` 
-
-> [!NOTE] Network interface
-> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.111, subnet 24, gateway 192.168.150.2
-> cada VMserver tiene su propia ip, -> cluster1-01 192.168.150.112, subnet 24, gateway 192.168.150.2
-
-**Modificar la puerta de administracion con la ip:** 
-- ```network interface modify -vserver {vserver name} -lif {logical interface (la de management)} -service-policy default-management```
 
 ## 1. Crea un broadcast domain "DATA"
 > Crea un broadcast domain "DATA"considerando los puertos cluser1-01:e0d como miembros
