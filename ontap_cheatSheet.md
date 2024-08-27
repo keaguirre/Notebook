@@ -131,9 +131,9 @@
   ## Agregar las licencias
   - Ingresar a la web de administracion del cluster en la ip ```.100```
   - Paso1:
-  ![intranet](./Assets/how_to_license1.gif)
+  ![intranet](./Assets/ontap/how_to_license1.gif)
   - Paso2:
-  ![intranet](./Assets/how_to_license2.gif)
+  ![intranet](./Assets/ontap/how_to_license2.gif)
   ### 01 Node licenses
   ```
   YVUCRRRRYVHXCFABGAAAAAAAAAAA, 
@@ -172,12 +172,12 @@
 
   ## 2. Configuración DNS Server
   - Configure los servidores DNS por cada uno de los nodos que componen el cluster. Configure el siguiente DNS: **```192.168.150.136```** o la **ip** de nuestro Windows Server.
-   ![interface](./Assets/dns.gif)
+   ![interface](./Assets/ontap/dns.gif)
   ## 3. Configuración de Fecha y Hora (NTP Server)
   - Configure la fecha y hora del sistema (cluster), considerando agregar como servidor NTP Server: **```server1.duoc.local```**.
-   ![interface](./Assets/ntp_1.gif)
+   ![interface](./Assets/ontap/ntp_1.gif)
   - Paso 2:
-   ![interface](./Assets/ntp_2.gif)
+   ![interface](./Assets/ontap/ntp_2.gif)
 
 ## Probar conexión entre nodos, check hr, zona horaria
 - ```ping -node cluster1-01 -destination server1.duoc.local```
@@ -206,15 +206,15 @@
 ### Desarrollo item 4:
 - En la interfaz grafica:
   - Storage ➡️Tiers➡️Add local Tier o Add Cloud Tier en este caso el local: Te muestra una recomendacion para el aggregate ➡️ switch manual configuration ➡️ name: n1_aggr1, number of disks 11, raid-DP, raid group size 11➡️save
-   ![interface](./Assets/aggr_gui1.gif)
-   ![interface](./Assets/aggr_gui2.gif)
+   ![interface](./Assets/ontap/aggr_gui1.gif)
+   ![interface](./Assets/ontap/aggr_gui2.gif)
 
 - CLI:
 
   ```aggr create -aggregate n2_aggr1 -maxraidsize 11 -diskcount 11 -raidtype raid_dp - node cluster1-02```
   
 # Actividad 2 EA2 CIFS & NFS
-![Diagrama](./Assets/A2EA2.png)
+![Diagrama](./Assets/ontap/A2EA2.png)
 
 ## Creación de VServer (SVM) NFS CIFS
 

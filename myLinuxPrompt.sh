@@ -11,10 +11,11 @@ curl -sS https://starship.rs/install.sh | sh
 
 # Adding the following to the end of ~/.bashrc for root user:
 echo 'eval "$(starship init bash)"' >> /root/.bashrc
+
 # Download starship theme for root user
 curl -o /root/.config/starship.toml https://raw.githubusercontent.com/keaguirre/LinuxCheatSheet/main/starship.toml
 
-exec bash
+source /root/.bashrc
 
 #Install starship for non-root users
 curl -sS https://starship.rs/install.sh | sh
@@ -24,4 +25,4 @@ echo 'eval "$(starship init bash)"' >> ~/.bashrc
 # Download starship theme for non-root users
 curl -o ~/.config/starship.toml https://raw.githubusercontent.com/keaguirre/LinuxCheatSheet/main/starship.toml
 
-exec bash
+source ~/.bashrc

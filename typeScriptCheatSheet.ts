@@ -1,4 +1,5 @@
 /*
+
 npm install -g typescript
 tsc -init para crear el archivo tsconfig.json
 buscaremos las siguientes propiedades definiremos los valores o los cambiaremos si es necesario:
@@ -9,7 +10,8 @@ buscaremos las siguientes propiedades definiremos los valores o los cambiaremos 
 "noEmitOnError": false
 "sourceMap": true
 "noUnusedParameters": true,   
-"noImplicitReturns": true
+"noImplicitReturns": true,
+"strictnullChecks": true,
 deberemos tener mas menos la siguiente estructura
 .
 ├── dist
@@ -17,6 +19,8 @@ deberemos tener mas menos la siguiente estructura
 ├── src
 │   └── index.ts
 └── tsconfig.json
+
+Para mas detalles del tsconfig.json ver /Assets/typescript/tsconfig.json
 
 create en debug item -> launch.json file -> debugger Node.js al final creara una carpeta .vscode y dentro el archivo launch.json
 luego debajo de "program": "${workspaceFolder}/src/index.ts" agregamos
@@ -143,3 +147,82 @@ function ErrorUsuario():never{
 }
 
 //Tipos avanzados
+
+//Union types
+let puntaje:number | string = 98 //sirve para definir mas de un tipo de dato en caso de ser necesario
+puntaje = 'hola mundo'
+
+type Animal = {
+    id:number,
+    estado: string
+}
+type Usuario = {
+    id:number,
+    name:string
+}
+
+let animal: Usuario | Animal = { id: 1, estado: '', name: '' }
+
+//union types functions
+function sumaDos (n: number | string): number {
+    if (typeof n === 'number') {
+        return n + 2
+    }//si definimos este bloque de validacion, asumira que el otro bloque es un string
+    return parseInt(n)+2
+    //si no defino una validacion, me muestra los metodos que tienen en comun los tipos de datos
+}
+sumaDos('2')
+
+//intersection types
+type Audit = {
+    created_at: string,
+    modified_at: string,
+}
+
+type Product = {
+    name: string,
+}
+
+const product: Audit & Product = {
+    created_at: '',
+    modified_at: '',
+    name: ''
+}
+//intersection types toma las propiedades de ambos tipos de datos y las une en un solo objeto
+
+//literal types para definir valores especificos
+const nDeFibo: 0 | 1 | 2 | 3 | 5 = 3; //definicion en la variable
+type Fibo = 0 | 1 | 2 | 3 | 5
+const nDeFibo2: Fibo = 0; //definicion usando un type
+
+//valores nulos
+function toNumber(s:string | null | undefined): number {
+    if (!s){
+        return 0
+    }
+    return parseInt(s)
+}
+
+// const n = toNumber(null)
+// const n = toNumber(undefined)
+//con esto validamos todos los posibles valores y manejamos los tipos segun lo recibido
+
+//optional chaining operator
+function getUser(id: number){
+    if(id < 0){
+        null
+    }
+    return {
+        id: 1,
+        name: 'chanchito feliz',
+        created_at: new Date()
+    }
+}
+const user = getUser(-1)//simulamos que este usr no existe en la bbdd
+//console.log(user.created_at) //esto lanzaria un error porque user es null y no tiene la propiedad created_at
+console.log(user?.created_at) //esto evita el error y retorna undefined si no existe, no puede acceder a la propiedad
+const arr1 = null
+arr1?.[0] //esto evita el error y retorna undefined si no existe, no puede acceder a la propiedad
+const fn5:any = null
+fn5?.() //esto evita el error y retorna undefined si no existe, no puede acceder a la propiedad
+
