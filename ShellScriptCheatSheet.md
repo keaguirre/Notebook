@@ -129,17 +129,13 @@ w -h
 
 ### Archivos de log mas importantes
 
-|Archivo de log | Tipos de mensajes almacenados en este archivo |
------------------------------------------------------------------
-| /var/log/secure | Mensajes relacionados con la seguridad y eventos de autenticacion |
-
-| /var/log/maillog | Mensajes relacionados con el servicio de correos|
-
-| /var/log/cron | Mensajes relacionados con la ejecucion de tareas programadas |
-
-| /var/log/boot.log | Mensajes relacionados con el arranque del sistema |
-
-| /var/log/messages | La mayoria de los mensajes del sistema son almacenados aqui, excepto los nombrados anteriormente junto con los relacionados con solamente depuracion |
+| Archivo de log    | Tipos de mensajes almacenados en este archivo                                      |
+|-------------------|--------------------------------------------------------------------------------------|
+| /var/log/secure   | Mensajes relacionados con la seguridad y eventos de autenticación                    |
+| /var/log/maillog  | Mensajes relacionados con el servicio de correos                                     |
+| /var/log/cron     | Mensajes relacionados con la ejecución de tareas programadas                         |
+| /var/log/boot.log | Mensajes relacionados con el arranque del sistema                                    |
+| /var/log/messages | La mayoría de los mensajes del sistema son almacenados aquí, excepto los mencionados anteriormente junto con los relacionados con depuración solamente |
 
 ## Ejemplos scripts
 

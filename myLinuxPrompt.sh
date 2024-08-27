@@ -13,7 +13,7 @@ curl -sS https://starship.rs/install.sh | sh
 echo 'eval "$(starship init bash)"' >> /root/.bashrc
 
 # Download starship theme for root user
-curl -o /root/.config/starship.toml https://raw.githubusercontent.com/keaguirre/LinuxCheatSheet/main/starship.toml
+curl -o /root/.config/starship.toml https://raw.githubusercontent.com/keaguirre/Notebook/main/Assets/linux/starship.toml
 
 source /root/.bashrc
 
@@ -23,6 +23,6 @@ curl -sS https://starship.rs/install.sh | sh
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
 
 # Download starship theme for non-root users
-curl -o ~/.config/starship.toml https://raw.githubusercontent.com/keaguirre/LinuxCheatSheet/main/starship.toml
+curl -o ~/.config/starship.toml https://raw.githubusercontent.com/keaguirre/Notebook/main/Assets/linux/starship.toml
 
 source ~/.bashrc
