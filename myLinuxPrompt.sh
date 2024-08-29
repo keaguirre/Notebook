@@ -26,3 +26,11 @@ echo 'eval "$(starship init bash)"' >> ~/.bashrc
 curl -o ~/.config/starship.toml https://raw.githubusercontent.com/keaguirre/Notebook/main/Assets/linux/starship.toml
 
 source ~/.bashrc
+
+#ohMyPosh
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" #Install Jb Mono & configure terminal to use it
+sudo apt install -y curl
+curl -s https://ohmyposh.dev/install.sh | bash -s
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/amro.omp.json')"' >> ~/.bashrc
+exec bash
