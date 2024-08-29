@@ -32,5 +32,6 @@ source ~/.bashrc
 sudo apt install -y curl
 curl -s https://ohmyposh.dev/install.sh | bash -s
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/amro.omp.json')"' >> ~/.bashrc
+echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/xtoys.omp.json')"' >> ~/.bashrc
+echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/huvix.omp.json')"' >> ~/.bashrc
 exec bash
