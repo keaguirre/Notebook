@@ -36,7 +36,12 @@ echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/J
 echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/huvix.omp.json')"' >> ~/.bashrc
 exec bash
 
-#.vimrc
+#Install Vim-Plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+#descargar mi .vimrc
 curl -fLo ~/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
 sudo curl -fLo /root/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
+# vim -> :PlugInstall -> reiniciar vim -> Copilot setup
 
