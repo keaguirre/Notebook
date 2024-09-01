@@ -14,6 +14,7 @@ call plug#begin()
   Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'joshdick/onedark.vim'
   Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+  Plug 'github/copilot.vim' ":PlugInstall luego :Copilot setup, needs vim >= 8.2 & nodejs 
 
 call plug#end()
 
