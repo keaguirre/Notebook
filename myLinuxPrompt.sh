@@ -35,3 +35,8 @@ echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/xtoys.omp.json')"' >> ~/.bashrc
 echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/huvix.omp.json')"' >> ~/.bashrc
 exec bash
+
+#.vimrc
+curl -fLo ~/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
+sudo curl -fLo /root/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
+
