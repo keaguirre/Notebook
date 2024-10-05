@@ -14,6 +14,7 @@ Este repositorio contiene cheat sheets y apuntes de diversas tecnologías y herr
 - [Cheat Sheet de Red Hat](RedhatCheatSheet.md)
 - [Cheat Sheet de CCNA4](CCNA4.md)
 - [Cheat Sheet de NetApp ONTAP](ontap_cheatSheet.md)
+- [Cheat Sheet de Respaldo y Recuperación](Respaldo&Recuperacion.md)
 
 ### Scripts Útiles
 - [Script para configuración de JBoss en RedHat](javaJboss.sh)
