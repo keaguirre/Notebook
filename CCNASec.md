@@ -185,3 +185,110 @@ Utiliza el puerto 514 UDP y cada mensaje de Syslog contiene un nivel de gravedad
 | **7**         | debugging     | Debugging messages                 | LOG_DEBUG    |
 
 ## Configuracion de SysLog
+
+-   logging host [hostname | ip-address]
+-   loggin trap [level]
+-   logging source-interface [interface-type] [interface-number]
+-   logging on
+
+
+## Configuración de SNMP
+
+Este documento describe el procedimiento para configurar SNMP (Simple Network Management Protocol) en un dispositivo Cisco, asegurando el acceso a la red de administración protegida mediante una ACL (Access Control List) y configurando vistas, grupos y usuarios de SNMP versión 3 con autenticación y privacidad.
+
+---
+
+### Paso 1: Configurar una ACL estándar para permitir la red de administración protegida
+
+Primero, creamos una lista de control de acceso (ACL) estándar para permitir el acceso desde una red de origen específica (source_net).
+
+```cisco
+Router(config)# ip access-list standard <acl-name>
+Router(config-std-nacl)# permit <source_net>
+```
+
+- `<acl-name>`: Nombre de la lista de acceso.
+- `<source_net>`: Red de origen permitida para el acceso (ej. `192.168.1.0 0.0.0.255`).
+
+---
+
+### Paso 2: Configurar una vista SNMP
+
+Configuramos una vista SNMP que define los OIDs (Object Identifiers) que un grupo de usuarios puede monitorear o gestionar.
+
+```cisco
+Router(config)# snmp-server view <view-name> <oid-tree> included
+```
+
+- `<view-name>`: Nombre de la vista SNMP.
+- `<oid-tree>`: Identificador de objeto (OID) que se incluye en la vista (ej. `1.3.6.1.2.1` para el árbol de MIB-2).
+- `included`: Incluye el OID especificado en la vista.
+
+---
+
+### Paso 3: Configurar un grupo SNMP
+
+Creamos un grupo SNMP y asignamos la vista creada en el paso anterior, estableciendo el nivel de acceso.
+
+```cisco
+Router(config)# snmp-server group <group-name> v3 priv read <view-name> access <acl-name>
+```
+
+- `<group-name>`: Nombre del grupo SNMP.
+- `v3`: Versión 3 de SNMP (recomendada por su seguridad).
+- `priv`: Nivel de seguridad que incluye autenticación y privacidad.
+- `read <view-name>`: Asigna la vista creada en el paso 2 como vista de solo lectura.
+- `access <acl-name>`: Asigna la ACL creada en el paso 1 para limitar el acceso.
+
+---
+
+### Paso 4: Configurar un usuario como miembro del grupo SNMP
+
+Agregamos un usuario al grupo SNMP y configuramos los métodos de autenticación y privacidad.
+
+```cisco
+Router(config)# snmp-server user <username> <group-name> v3 auth <auth-method> <auth-password> priv <priv-method> <priv-password>
+```
+
+- `<username>`: Nombre de usuario para el acceso SNMP.
+- `<group-name>`: Nombre del grupo al que se asigna el usuario.
+- `v3`: Versión 3 de SNMP.
+- `auth <auth-method>`: Método de autenticación (`md5` o `sha`).
+- `<auth-password>`: Contraseña de autenticación.
+- `priv <priv-method>`: Método de privacidad (`des`, `3des`, o `aes` con opciones de clave de 128, 192 o 256 bits).
+- `<priv-password>`: Contraseña de privacidad.
+
+---
+
+## Protocolo de tiempo de red (NTP)
+- NTP usa el puerto udo 
+
+### Configurar NTP Server
+
+1. Entrar en modo de configuración global:
+    - `conf t`
+
+2. Configurar el dispositivo como NTP master con prioridad 1:
+    - `ntp master 1`
+
+3. Salir del modo de configuración:
+    - `exit`
+
+4. Verificar la hora actual del dispositivo:
+    - `show clock`
+
+5. Entrar nuevamente en modo de configuración global:
+    - `conf t`
+
+6. Configurar el servidor NTP con dirección IP `10.10.10.1`:
+    - `ntp server 10.10.10.1`
+
+7. Salir del modo de configuración:
+    - `exit`
+
+8. Verificar la hora actual del dispositivo nuevamente:
+    - `show clock`
+
+9. Comprobar el estado del NTP:
+    - `show ntp status`
+
