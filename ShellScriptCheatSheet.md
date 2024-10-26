@@ -164,17 +164,56 @@ cat /var/log/secure | grep $usuario | grep Failed | wc -l
 ```
 # Unidad 2
 
-- Operadores logicos
+-    ### Operadores logicos
+
     - ! -> Not
     - && -> And
     - || -> Or
-- Operadores de comparacion
+    
+-    ### Operadores de comparacion
+  
     - -eq -> (==) es igual a -> [$a -eq $b] -> [$c == "hola"]
     - -ne -> (!=) es distinto de [$a -ne $b] -> [$c != "hola"]
     - -gt -> (>) -> es mayor que -> [ $a -gt $b]
     - -ge -> (>=) -> es igual o igual a -> [ $a -ge $b]
     - -lt -> (<) -> es menor que -> [ $a -lt $b]
-    - -le -> (<=) -> es menor o igual a -> [ $a -le $b] 
+    - -le -> (<=) -> es menor o igual a -> [ $a -le $b]
+
+En Bash, el comando if se utiliza para evaluar condiciones y ejecutar código basado en si esas condiciones son verdaderas o falsas. Aquí tienes algunos de los parámetros y opciones más comunes que se pueden usar dentro de una sentencia if en Bash:
+
+### Comparación de números:
+
+-    -eq: Igual a (a -eq b)
+-    -ne: No igual a (a -    -ne b)
+-    -lt: Menor que (a -lt b)
+-    -le: Menor o igual que (-    a -le b)
+-    -gt: Mayor que (a -gt b)
+-    -ge: Mayor o igual que (a -ge-     -    b)
+
+### Comparación de cadenas:
+
+-    =: Igual a ("$a" = "$b")
+-    !=: No igual a ("$a" != "$b")
+-    -z: Cadena vacía (-z "$a")
+-    -n: Cadena no vacía (-n "$a")
+
+### Prueba de archivos:
+
+-    -e: Existe ([ -e archivo ])
+-    -f: Es un archivo regular ([ -f archivo ])
+-    -d: Es un directorio ([ -d archivo ])
+-    -r: Es legible ([ -r archivo ])
+-    -w: Es escribible ([ -w archivo ])
+-    -x: Es ejecutable ([ -x archivo ])
+-    -s: No está vacío ([ -s archivo ])
+    
+### Operadores lógicos:
+
+-    &&: Operador AND (if [ condition1 ] && [ condition2 ]; then ...)
+-    ||: Operador OR (if [ condition1 ] || [ condition2 ]; then ...)
+
+### Condicional compuesta:
+Puedes combinar condiciones con paréntesis dobles (( )) para expresiones numéricas o con corchetes dobles [[ ]] para expresiones avanzadas de Bash.
 
 ### While
 ```shell
@@ -234,3 +273,22 @@ function salir(){
 ```
 Para llamar a esta función solo hace falta escribir lo siguiente:
 ```salir```
+
+
+# Validar si el último comando fue exitoso
+
+Para verificar si el comando anterior en Bash se ejecutó sin errores, puedes utilizar la variable especial $?.
+Esta variable contiene el código de salida del último comando ejecutado:
+
+Si `$?` es igual a 0, significa que el comando se ejecutó correctamente.
+Si `$?` es distinto de 0, significa que hubo un error.
+
+
+```bash
+comando_que_quieres_ejecutar
+if [ $? -eq 0 ]; then
+  echo "El comando se ejecutó correctamente"
+else
+  echo "Hubo un error en la ejecución del comando"
+fi
+```
