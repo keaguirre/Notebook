@@ -292,3 +292,296 @@ Router(config)# snmp-server user <username> <group-name> v3 auth <auth-method> <
 9. Comprobar el estado del NTP:
     - `show ntp status`
 
+
+
+
+
+
+# Trabajo unidad 2
+# Parte1:
+## Etapa 1
+### R1
+```
+int g0/0
+ip add 192.168.1.1 255.255.255.0
+no sh
+ex
+
+int se 0/0/0
+ip add 10.10.10.1 255.255.255.252
+no sh
+ex
+
+security passwords min-length 10
+enable secret duocuc1234
+service password-encryption
+line vty 0 1
+username ciscoclass secret ciscosecurity
+login local
+exec-timeout 20 0
+exit
+interface s0/0/0
+no cdp enable
+ex
+```
+## Etapa 2
+```
+login block-for 30 attempts 3 within 60
+ip domain-name duoc.com
+crypto key generate rsa
+	->	1024
+ip ssh version 2	
+line vty 0 1
+transport input ssh
+```
+## Etapa 3
+```
+access-list 33 permit 192.168.1.2
+line vty 0 1
+access-class 33 in
+show access-lists 33
+```	
+## Etapa 4
+```
+do mkdir flash:ipsdir
+ip ips config location flash:ipsdir
+ip ips name iosips
+ip ips notify log
+do clock set 10:00:00 Aug 20 2017
+service timestamps log datetime msec
+logging 192.168.1.100
+ip ips signature-category
+category all
+retired true
+category IOS_IPS basic
+retired false
+exit
+exit
+enter
+interface g0/0
+ip ips iosips out
+exit
+
+ip ips signature-definition
+signature 2004 0
+status
+enabled true
+retired true
+exit
+ip ips signature-category
+ios_ips basic
+retired false
+do copy running-config startup-config
+```
+# Parte 2
+
+### Etapa 1: Creación de Zonas de Seguridad
+#### Crear la zona de seguridad interna IN-ZONE
+```
+zone security IN-ZONE
+exit
+```
+
+#### Crear la zona de seguridad externa OUT-ZONE
+```
+zone security OUT-ZONE
+exit
+```
+#### Asignar las interfaces a las zonas de seguridad
+```
+interface GigabitEthernet0/0
+zone-member security IN-ZONE
+exit
+
+interface Serial0/0/0
+	zone-member security OUT-ZONE
+exit
+```
+### Etapa 2: Identificar el Tráfico usando Class-Map
+### Crear una ACL extendida n° 100 para permitir todo el tráfico IP desde 192.168.2.0/24 hacia cualquier dirección
+```
+ip access-list extended 100
+permit ip 192.168.2.0 0.0.0.255 any
+exit
+```
+#### Crear el Class-Map IN-NET-CLASS-MAP y asociarlo a la ACL 100
+```
+class-map type inspect match-all IN-NET-CLASS-MAP
+match access-group 100
+exit
+```
+### Etapa 3: Especificar las Políticas de Firewall
+#### Crear la Policy-Map IN-2_OUT-PMAP y especificar el Class-Map IN-NET-CLASS-MAP para inspección
+```
+policy-map type inspect IN-2_OUT-PMAP
+class type inspect IN-NET-CLASS-MAP
+inspect
+exit
+exit
+```
+### Etapa 4: Aplicar las Políticas de Firewall
+
+#### Crear el Zone Pair IN-2-OUT-ZPAIR para manejar el tráfico entre IN-ZONE y OUT-ZONE
+```
+zone-pair security IN-2-OUT-ZPAIR source IN-ZONE destination OUT-ZONE
+service-policy type inspect IN-2_OUT-PMAP
+exit
+```
+### Configuraciones Adicionales de Seguridad en R3
+#### Configurar la contraseña de modo EXEC privilegiado
+```
+enable secret duocuc1234
+```
+#### Configurar el dominio para SSH y generar llave RSA de 1024 bits
+```
+ip domain-name duoc.com
+crypto key generate rsa
+1024
+ip ssh version 2
+```
+#### Crear usuario local para autenticación en sesiones VTY
+```
+username ciscoclass privilege 15 secret ciscosecurity
+```
+
+#### Configurar líneas VTY para acceso SSH y autenticación local, con desconexión tras 20 minutos de inactividad
+```	
+line vty 0 1
+login local
+transport input ssh
+exec-timeout 20 0
+exit
+```
+#### Guardar la configuración para asegurar que no se pierda al reiniciar
+```	
+end
+write memory
+```
+### Comandos de Verificación
+#### Mostrar la configuración de zonas de seguridad y asignación de interfaces
+```
+show zone security
+```
+
+#### Verificar las sesiones activas que están siendo inspeccionadas por el firewall
+```
+show policy-map type inspect zone-pair sessions
+```
+#### Mostrar configuración actual de zonas y políticas para confirmar
+```
+show running-config | section zone
+	do copy running-config startup-config
+```
+# Parte 3
+
+## Etapa 1
+### R3
+``` 
+configure terminal
+crypto isakmp policy 10
+encryption aes 256
+hash sha
+authentication pre-share
+group 5
+lifetime 86400
+exit
+```
+```
+crypto isakmp key duocvpn1 address 10.10.10.1
+
+crypto ipsec transform-set VPN-SET-DUOC esp-aes esp-sha-hmac
+access-list 140 permit ip 192.168.2.0 0.0.0.255 192.168.1.0 0.0.0.255
+crypto map VPN-MAP-DUOC 10 ipsec-isakmp
+set peer 10.10.10.1
+set transform-set VPN-SET-DUOC
+match address 140
+interface Serial0/0/0
+crypto map VPN-MAP-DUOC
+exit
+
+sh crypto isakmp sa
+sh crypto ipsec sa
+sh crypto map
+sh running-config | section crypto
+```
+## Etapa 2
+
+### R3
+```
+configure terminal
+ip access-list extended 140
+permit ip 192.168.1.0 0.0.0.255 192.168.2.0 0.0.0.255
+exit
+```
+```
+configure terminal
+crypto isakmp policy 10
+encryption aes 256
+hash sha
+authentication pre-share
+group 5
+lifetime 86400
+exit
+
+crypto isakmp key duocvpn1 address 10.20.20.1
+```
+```
+configure terminal
+crypto ipsec transform-set VPN-SET-DUOC esp-aes esp-sha-hmac
+exit
+```
+```
+crypto map VPN-MAP-DUOC 10 ipsec-isakmp
+set peer 10.20.20.1
+set transform-set VPN-SET-DUOC
+match address 140
+exit
+```
+```
+configure terminal
+interface Serial0/0/0
+crypto map VPN-MAP-DUOC
+exit
+do copy running-config startup-config
+```
+```
+sh crypto isakmp sa
+sh crypto ipsec sa
+sh crypto map
+sh running-config | section crypto
+```
+## Etapa 3
+```
+configure terminal
+ip access-list extended 140
+permit ip 192.168.2.0 0.0.0.255 192.168.1.0 0.0.0.255
+exit
+```
+```
+configure terminal
+crypto isakmp policy 10
+encryption aes 256
+hash sha
+authentication pre-share
+group 5
+lifetime 86400
+exit
+```
+```
+crypto isakmp key duocvpn1 address 10.10.10.1
+crypto ipsec transform-set VPN-SET-DUOC esp-aes esp-sha-hmac
+crypto map VPN-MAP-DUOC 10 ipsec-isakmp
+set peer 10.10.10.1
+set transform-set VPN-SET-DUOC
+match address 140
+
+interface Serial0/0/0
+crypto map VPN-MAP-DUOC
+exit
+```
+```
+sh crypto isakmp sa
+sh crypto ipsec sa
+sh crypto map
+sh running-config | section crypto
+```
