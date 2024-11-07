@@ -1,41 +1,85 @@
-# Apuntes de la asignatura de Respaldo y Recuperación
+# Tutorial de Respaldo y Recuperación
 
-# Maquina bkp-server
-1.  Conectar a localhost:9392, BACKUPSERVER\backupserver, password
-2.  Inventory -> Virtual Infraestructure -> Add Server -> VMware vSphere -> vSphere -> 192.168.150.20, description -> Credentials, add, Username & Password, Seguimos con root
-3.  Storage Infraestructure -> Add Storage -> NetApp -> ONTAP -> 192.168.150.10, Role: Block or file storage for VMware vSphere -> Credentials: admin, next -> Dejamos activado fiber channel. Ahora deberia listarse en Storage Infraestructure.
+Este tutorial detalla los pasos para configurar y respaldar una máquina virtual en un entorno con Veeam, VMware ESXi y NetApp.
 
-4. Vamos  la ip en el navegador 192.168.150.10 a netapp y logeamos con admin + password -> Storage -> Storage VMs -> Add Storage VM, enable nfs, Allow NFS Client Access: Client Specification 192.168.150.20/24, para la prueba habilitamos todos los permisos en Read/Write Access & Superuser Access luego save
-4.1 CLUSTER1-01 IP ADDRESS 192.168.150.12 /24, Broadcast Domain Default -> Save
+## Configuración Inicial en `bkp-server`
 
-5. Storage -> Volumes -> + Add -> Name DS1 Capacity: 10 Gib, export via NFS -> More Options -> Access Permissions -> Grant access to host: default, quedara en rule index 1, clientes 192.168.150.20, any, any, any -> Deshabilitar Enable Snapshot Copies (Local) -> Save
+### Paso 1: Conectar al Servidor
+1. Conectar a `localhost:9392`, `BACKUPSERVER\backupserver`, con la contraseña.
 
-6. Vamos a el volumen DS1 y buscamos su NFS Acess y lo copiamos 192.168.150.12:/DS1 -> Vamos a VMware ESXi (192.168.150.20) y logeamos con root + Passwd
-    6.1 New DataStore -> Mount NFS datastore -> Name DS1, NFS Server 192.168.150.12, NFS Share /DS1, NFS Version NFS 3 -> Finish
+### Paso 2: Añadir Infraestructura de Virtualización
+1. Ir a `Inventory` -> `Virtual Infrastructure` -> `Add Server`.
+2. Seleccionar `VMware vSphere` -> `vSphere`.
+3. Introducir `192.168.150.20`, descripción y credenciales (usuario `root`).
 
-7. Volvemos a Veeam Backup y vamos al CLUSTER1 y click derecho -> Edit Storage -> VMware vSphere deshabilitamos FiberChannel y activamos NFS sin Create required exp rules auto -> Apply -> Ahora en Cluster1 deberia listarnos svm0 -> DS1 & svm0_root.
+### Paso 3: Configurar Almacenamiento
+1. Ir a `Storage Infrastructure` -> `Add Storage`.
+2. Seleccionar `NetApp` -> `ONTAP` -> `192.168.150.10`.
+3. Configurar `Role: Block or file storage for VMware vSphere` con credenciales `admin`.
+4. Dejar activado `Fiber Channel`. Verificar que esté en `Storage Infrastructure`.
 
-8. Click derecho en DS1 y Create Snapshot -> OK
+### Paso 4: Configurar NetApp
+1. Acceder a `192.168.150.10` en el navegador, iniciar sesión con `admin` y la contraseña.
+2. Ir a `Storage` -> `Storage VMs` -> `Add Storage VM`.
+3. Habilitar `NFS`, y en `Allow NFS Client Access`, añadir `192.168.150.20/24`.
+4. Permitir `Read/Write Access & Superuser Access` y guardar.
 
-9. Volvemos a VMware ESXi (192.168.150.20) -> Click en DataStore1 -> Datastore browser -> ISOS -> y deberia listar Rocky 8.6 y Rocky 9.4 -> Close
-10. Vamos a Virtual Machines -> Create / Register VM -> Create a new virtual machine -> Name: rocky-vm, guest os family: linux, guest os version: redhat 8 -> next -> Select Storage -> DS1 -> Cambiamos Virtual hardware -> Hard Disk 1: 6GB -> CD/DVD Drive 1: Datastore ISO File option & Select Rocky 8.6 from ISOS Folder -> Next -> Finish
-11. Desde virtual machines deberiamos poder inicializar la maquina y terminamos de instalar Rocky Linux.
-12. Volvemos a Veeam Backup -> Inventory y en Virtual Infraestructure -> VMware vSphere -> Standalone Hosts -> 192.168.150.20
+### Paso 5: Crear Volumen
+1. Ir a `Storage` -> `Volumes` -> `+ Add`.
+2. Nombre: `DS1`, Capacidad: `10 GiB`, exportar vía `NFS`.
+3. En `Access Permissions`, añadir `default` con acceso para `192.168.150.20`.
+4. Deshabilitar `Enable Snapshot Copies (Local)` y guardar.
 
-# TimeStamp Minuto 31:30
+### Paso 6: Configurar Datastore en VMware ESXi
+1. Copiar el acceso NFS de `DS1`, `192.168.150.12:/DS1`.
+2. Ir a VMware ESXi (`192.168.150.20`) e iniciar sesión con `root`.
+3. Crear `New DataStore` -> `Mount NFS datastore`.
+4. Nombre: `DS1`, `NFS Server: 192.168.150.12`, `NFS Share: /DS1`, `NFS Version: NFS 3`.
 
-13. Click derecho en la maquina rocky-vm -> Add to Backup Job -> New Job
-13.1 Name: bkp_rocky-vm -> Next -> Virtual Machines to backup seleccionamos rocky-vm, next -> Storage: Backup Repository: Retention policy: 1 Restore Points, Next -> Next -> Apply -> Finish con click en Run the Job when i click Finish.
-14. Volvemos a Home y buscamos el item de Jobs -> Backup -> y podemos verlo ejecutandose 
+### Paso 7: Configurar Almacenamiento en Veeam Backup
+1. En Veeam Backup, ir a `CLUSTER1`, click derecho -> `Edit Storage`.
+2. Desactivar `FiberChannel` y activar `NFS`.
+3. Aplicar cambios y verificar que `svm0 -> DS1 & svm0_root` estén listados.
 
-15. Click en un espacio vacio -> Backup -> Virtual Machine... -> Name: bkp_rocky-vm-snap -> Next -> Virtual Machines item: Add -> Click on rocky-vm -> Add -> Next -> Storage Item: Backup Repository: OnTap Snapshot: Retention Policy: 5 -> Next -> Next -> Apply -> Finish con click en Run the Job when i click Finish.
+### Paso 8: Crear Snapshot en DS1
+1. En Veeam Backup, click derecho en `DS1` -> `Create Snapshot`.
 
-16. Volvemos a Storage Infraestructure -> CLUSTER1 -> DS1 -> Veremos el VeeamSourceSnapshot...
+### Paso 9: Crear Máquina Virtual en VMware ESXi
+1. En VMware ESXi, ir a `DataStore1` -> `Datastore Browser` -> `ISOS`.
+2. Verificar que las ISOs `Rocky 8.6` y `Rocky 9.4` estén listadas.
+3. Ir a `Virtual Machines` -> `Create / Register VM`.
+4. Nombre: `rocky-vm`, tipo de SO: `Linux`, versión: `RedHat 8`.
+5. Almacenamiento: seleccionar `DS1`.
+6. Configurar `Hard Disk 1: 6GB` y seleccionar `Rocky 8.6` desde la carpeta ISOS.
+7. Finalizar y arrancar la máquina virtual.
 
-17. Volvemos a NetApp (192.168.150.10) -> Storage -> Volumes y en la pestaña Snapshot Copies Deberíamos poder ver listado el Snapshot llamado VeeamSourceSnapshot...
+### Paso 10: Añadir VM a Veeam Backup Job
+1. En Veeam Backup, ir a `Inventory` -> `Virtual Infrastructure` -> `Standalone Hosts` -> `192.168.150.20`.
+2. Click derecho en `rocky-vm` -> `Add to Backup Job` -> `New Job`.
+3. Nombre: `bkp_rocky-vm`.
+4. Seleccionar `rocky-vm` y configurar políticas de retención.
 
-18.  Volvemos a VeeamBackup -> Inventory -> Virtual Infraestructure -> StandaloneHosts -> 192.168.150.20 -> Click derecho on rocky-vm -> Restore -> Instant recovery -> From storage snapshot -> Seleccionamos -> Next -> Restore to a new location, or with different settings -> Next -> Restored VM Name: rocky-vm-restore -> Next -> Next -> [x] Connect to network, [x] Power on target VM after restoring -> Finish
+### Paso 11: Crear Snapshot en Veeam Backup
+1. Ir a `Home` -> `Jobs` -> `Backup` -> click derecho en `bkp_rocky-vm` y ejecutar el trabajo.
 
-19. Volvemos a ESXi (192.168.150.20) -> y en Virtual machines deberíamos poder ver listado rocky-vm-restore y poder la vm.
-20. Si vamos a ONTAP en Storage -> Volumes Deberíamos poder ver listados También VeeamAux_DS1_Restore...
-21. Si volvemos a home en VeeamBackup Debería aparecer un nuevo item a la izquierda que dice **Instant Recovery** y debería estar rocky-vm-restore en status Mounted y si hacemos click derecho deberíamos poder ver la opción de Migrate to production... o **Stop Publishing para desmontar** -> validando en Volumes de ontap y en ESXi que ya no esta si seleccionamos la opción de **Stop Publishing**
+### Paso 12: Configurar Snapshots Adicionales en Veeam
+1. Click derecho -> `Backup -> Virtual Machine...` -> Nombre: `bkp_rocky-vm-snap`.
+2. Seleccionar `rocky-vm`, configurar retención a 5 puntos y ejecutar.
+
+### Paso 13: Verificar Snapshots en NetApp
+1. En NetApp (`192.168.150.10`), ir a `Storage` -> `Volumes` -> pestaña `Snapshot Copies`.
+2. Verificar el snapshot `VeeamSourceSnapshot...`.
+
+### Paso 14: Restaurar desde Snapshot en Veeam
+1. En Veeam Backup -> `Inventory -> Virtual Infrastructure -> Standalone Hosts -> rocky-vm`.
+2. Click derecho -> `Restore -> Instant Recovery -> From storage snapshot`.
+3. Restaurar como `rocky-vm-restore` y conectar a la red.
+
+### Paso 15: Verificar Restauración en VMware ESXi
+1. En VMware ESXi (`192.168.150.20`), verificar que `rocky-vm-restore` esté listado.
+2. En NetApp, ir a `Storage -> Volumes` y verificar `VeeamAux_DS1_Restore`.
+
+### Paso 16: Migrar a Producción o Desmontar VM Restaurada
+1. En Veeam Backup, ir a `Instant Recovery`.
+2. Click derecho en `rocky-vm-restore`, seleccionar `Migrate to production` o `Stop Publishing` para desmontar.
+3. Verificar que la VM no esté en `ONTAP` ni en `ESXi` después de desmontar.
