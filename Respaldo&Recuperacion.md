@@ -83,3 +83,50 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 1. En Veeam Backup, ir a `Instant Recovery`.
 2. Click derecho en `rocky-vm-restore`, seleccionar `Migrate to production` o `Stop Publishing` para desmontar.
 3. Verificar que la VM no esté en `ONTAP` ni en `ESXi` después de desmontar.
+
+# Video 2
+- Revisamos el material en bp.veeam.com/vbr/4_Operations/O_Application/mysql.html
+- Revisamos el material en dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/
+
+1.  Vamos al portal de VmWare ESXi (192.168.150.20) -> e iniciamos la maquina rocky-vm
+2.  revisamos la ip de la maquina y nos conectamos por ssh (192.168.150.154) root:password
+3. yum install wget
+4. wget https://dev.mysql.com/get/mysql80-community-release-el8-1.noarch.rpm
+5. nmcli connection -> nmcli connection modify ens192 connection.autoconnect yes
+6. nmcli connection up ens192
+7. yum install open-vm-tools
+
+8. Ahora vamos al pwshell de nuestra maquina host y ejecutamos el comando: scp .\mysql80-community-release-el8-1.noarch.rpm root@192.168.150.154:/root
+
+9. sudo yum localinstall mysql84-community-release-el8-1.noarch.rpm
+10. sudo yum repolist all | grep "mysql"
+11. yum install yum-utils
+
+#### Change mysql 8.4 to 8.0
+12. sudo yum-config-manager --disable mysql-8.4-lts-community
+13. sudo yum-config-manager --disable mysql-tools-8.4-lts-community
+14. sudo yum repolist all | grep "mysql"
+15. sudo yum-config-manager --enable mysql-80-community
+16. sudo yum-config-manager --enable mysql-tools-community
+17. sudo yum repolist all | grep "mysql" | grep enabled
+18. yum repolist enabled | grep mysql
+19. yum module disable mysql
+
+#### Install mysql 8.0
+20. yum install -y mysql-community-server
+21. systemctl enable --now mysqld
+22. grep 'temporary password' /var/log/mysqld.log
+23. mysql -u root -p -> password
+24. ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!';
+25. show databases;
+
+#### Create a database de prueba
+26. Vamos a dev.mysql.com/doc/employee/en/employees-installation.html
+27. yum install git
+28. git clone github.com/datacharmer/test_db.git
+29. cd test_db
+30. mysql -u root -p < employees.sql
+31. show databases;
+32. use employees;
+33. show tables;
+34. select * from employees limit 10;
