@@ -84,49 +84,59 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 2. Click derecho en `rocky-vm-restore`, seleccionar `Migrate to production` o `Stop Publishing` para desmontar.
 3. Verificar que la VM no esté en `ONTAP` ni en `ESXi` después de desmontar.
 
-# Video 2
+## Video 2
 - Revisamos el material en bp.veeam.com/vbr/4_Operations/O_Application/mysql.html
 - Revisamos el material en dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/
 
-1.  Vamos al portal de VmWare ESXi (192.168.150.20) -> e iniciamos la maquina rocky-vm
-2.  revisamos la ip de la maquina y nos conectamos por ssh (192.168.150.154) root:password
-3. yum install wget
-4. wget https://dev.mysql.com/get/mysql80-community-release-el8-1.noarch.rpm
-5. nmcli connection -> nmcli connection modify ens192 connection.autoconnect yes
-6. nmcli connection up ens192
-7. yum install open-vm-tools
+### Paso 1: Iniciar Máquina Virtual
+1. Vamos al portal de VmWare ESXi (192.168.150.20) -> e iniciamos la máquina `rocky-vm`.
+2. Revisamos la IP de la máquina y nos conectamos por SSH (`192.168.150.154`) `root:password`.
 
-8. Ahora vamos al pwshell de nuestra maquina host y ejecutamos el comando: scp .\mysql80-community-release-el8-1.noarch.rpm root@192.168.150.154:/root
+### Paso 2: Instalar wget
+1. Ejecutar `yum install wget`.
 
-9. sudo yum localinstall mysql84-community-release-el8-1.noarch.rpm
-10. sudo yum repolist all | grep "mysql"
-11. yum install yum-utils
+### Paso 3: Descargar MySQL
+1. Ejecutar `wget https://dev.mysql.com/get/mysql80-community-release-el8-1.noarch.rpm`.
 
-#### Change mysql 8.4 to 8.0
-12. sudo yum-config-manager --disable mysql-8.4-lts-community
-13. sudo yum-config-manager --disable mysql-tools-8.4-lts-community
-14. sudo yum repolist all | grep "mysql"
-15. sudo yum-config-manager --enable mysql-80-community
-16. sudo yum-config-manager --enable mysql-tools-community
-17. sudo yum repolist all | grep "mysql" | grep enabled
-18. yum repolist enabled | grep mysql
-19. yum module disable mysql
+### Paso 4: Configurar Conexión de Red
+1. Ejecutar `nmcli connection -> nmcli connection modify ens192 connection.autoconnect yes`.
+2. Ejecutar `nmcli connection up ens192`.
 
-#### Install mysql 8.0
-20. yum install -y mysql-community-server
-21. systemctl enable --now mysqld
-22. grep 'temporary password' /var/log/mysqld.log
-23. mysql -u root -p -> password
-24. ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!';
-25. show databases;
+### Paso 5: Instalar open-vm-tools
+1. Ejecutar `yum install open-vm-tools`.
 
-#### Create a database de prueba
-26. Vamos a dev.mysql.com/doc/employee/en/employees-installation.html
-27. yum install git
-28. git clone github.com/datacharmer/test_db.git
-29. cd test_db
-30. mysql -u root -p < employees.sql
-31. show databases;
-32. use employees;
-33. show tables;
-34. select * from employees limit 10;
+### Paso 6: Transferir MySQL RPM
+1. En PowerShell de la máquina host, ejecutar `scp .\mysql80-community-release-el8-1.noarch.rpm root@192.168.150.154:/root`.
+
+### Paso 7: Instalar MySQL RPM
+1. Ejecutar `sudo yum localinstall mysql80-community-release-el8-1.noarch.rpm`.
+2. Ejecutar `sudo yum repolist all | grep "mysql"`.
+
+### Paso 8: Cambiar MySQL 8.4 a 8.0
+1. Ejecutar `sudo yum-config-manager --disable mysql-8.4-lts-community`.
+2. Ejecutar `sudo yum-config-manager --disable mysql-tools-8.4-lts-community`.
+3. Ejecutar `sudo yum repolist all | grep "mysql"`.
+4. Ejecutar `sudo yum-config-manager --enable mysql-80-community`.
+5. Ejecutar `sudo yum-config-manager --enable mysql-tools-community`.
+6. Ejecutar `sudo yum repolist all | grep "mysql" | grep enabled`.
+7. Ejecutar `yum repolist enabled | grep mysql`.
+8. Ejecutar `yum module disable mysql`.
+
+### Paso 9: Instalar MySQL 8.0
+1. Ejecutar `yum install -y mysql-community-server`.
+2. Ejecutar `systemctl enable --now mysqld`.
+3. Ejecutar `grep 'temporary password' /var/log/mysqld.log`.
+4. Ejecutar `mysql -u root -p` e introducir la contraseña.
+5. Ejecutar `ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass4!'`.
+6. Ejecutar `show databases`.
+
+### Paso 10: Crear Base de Datos de Prueba
+1. Revisar el material en `dev.mysql.com/doc/employee/en/employees-installation.html`.
+2. Ejecutar `yum install git`.
+3. Ejecutar `git clone github.com/datacharmer/test_db.git`.
+4. Ejecutar `cd test_db`.
+5. Ejecutar `mysql -u root -p < employees.sql`.
+6. Ejecutar `show databases`.
+7. Ejecutar `use employees`.
+8. Ejecutar `show tables`.
+9. Ejecutar `select * from employees limit 10`.
