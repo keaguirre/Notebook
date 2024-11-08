@@ -84,7 +84,8 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 2. Click derecho en `rocky-vm-restore`, seleccionar `Migrate to production` o `Stop Publishing` para desmontar.
 3. Verificar que la VM no esté en `ONTAP` ni en `ESXi` después de desmontar.
 
-# Grabacion 18/10/2024: Scripts de Respaldo y Recuperación de la bbdd en rocky-vm
+# Video 2: Grabacion 18/10/2024: Introduccion a Scripts de Respaldo y Recuperación de la bbdd en rocky-vm
+
 # Video 3: Instalacion de MySQL 8.0 en Rocky-VM
 - Revisamos el material en bp.veeam.com/vbr/4_Operations/O_Application/mysql.html
 - Revisamos el material en dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/
