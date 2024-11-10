@@ -146,3 +146,65 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 # Video 4: 25/10/2024:
 
 # Video 5: 26/10/2024:
+
+Veeam Backup & Replication 12 User Guide for VMware vSphere
+https://helpcenter.veeam.com/docs/backup/vsphere/overview.html?ver=120
+
+# Credenciales
+Veeam bkp-server
+```yaml
+User: Administrator
+Pass: Password.01.
+```
+
+NetAPP Cluster 1
+```yaml
+IP ADM: 192.168.150.10
+IP Nodo: 192.168.150.11
+User: admin
+Pass: netapp123
+```
+NetAPP Cluster 2
+```yaml
+IP ADM: 192.168.150.40
+IP Nodo: 192.168.150.41
+User: admin
+Pass: netapp123
+```
+ESXi1
+```yaml
+IP Mgnt: 192.168.150.20
+User: root
+Pass: Password.01.
+```
+ESXi2
+```yaml
+IP Mgnt: 192.168.150.30
+User: root
+Pass: Password.01.
+```
+```mermaid
+graph TD
+    subgraph NetApp_Cluster1 ["NetApp - Cluster1"]
+        Nodo01["Nodo01"]
+        StorageVM["StorageVM"]
+        NFS["NFS"]
+        DS1["Volumen1: DS1 192.168.150.12"]
+        Nodo01 --> StorageVM
+        StorageVM --> NFS
+        NFS --> DS1
+    end
+
+    subgraph ESXi ["ESXi"]
+        rocky_vm["rocky-vm"]
+        DataStore["DataStore (DS1 NetApp)"]
+        rocky_vm --> DataStore
+    end
+
+    VeeamBackup["Veeam Backup (192.168.150.153): Respaldos & Snapshots"]
+
+    DS1 ---|NFS Mount IP| rocky_vm
+    DS1 ---> VeeamBackup
+    DataStore --> VeeamBackup
+
+```
