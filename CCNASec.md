@@ -292,9 +292,61 @@ Router(config)# snmp-server user <username> <group-name> v3 auth <auth-method> <
 9. Comprobar el estado del NTP:
     - `show ntp status`
 
+# Unidad 2
 
+## 2.1.1
+### Configuracion de SPAM mediante IDS
+monitor session [number] source [interface [interface] | vlan [vlan-id]] <!--Associate a SPAN session with a source port ->
+monitor session [number] destination [interface [interface] | vlan [vlan-id]] <!--Associate a SPAN session with a destination port ->
 
+### Cisco IOS IPS Con CLI
+mkdir [directory-name] <!-- Make a directory-->
+rename [old-name] [new-name] <!-- Rename a directory-->
+dir [/all] [filesystem: ] [file-url] <!-- List files in a directory-->
 
+### Implementacion de un IPS
+ip ips name [rule-name] <!--Create a rule name-->
+ip ips config location flash:[directory-name] <!--Configure IPS signature storage location-->
+ip ips notify [sdee | log] <!-- Specify the method of event notification-->
+ip ips signature-category <!-- Configure signature categories>
+category all <!-- Configure all signature categories-->
+    retired [true | false] <!-- Retire a signature category-->
+    exit
+    category ios_ips [basic | advanced] <!-- Configure IOS IPS signature category-->
+        retired [false | true] <!-- Retire a signature category-->
+        end
+ip ips [ips-name] [in | out] <!-- Apply an IPS configuration to an interface-->
+### Cargue la configuración de un IPS
+copy tftp://ftp_user: password @ server_ip_address/signature_package idconf <!-- Copy the IPS configuration from a TFTP server-->
+
+### Cancelar una firma de IPS
+ip ips signature-definition
+    signature [signature-id] [revision-number] <!-- Specify the signature ID and revision number-->
+        status
+            retired [true | false] <!-- Retire a signature(false)-->
+            exit
+        exit
+    exit
+ip ips signature-category
+    category ios_ips [basic | advanced] <!-- Configure IOS IPS signature category-->
+        retired [false | true] <!-- Retire a signature category(false)-->
+        exit
+    exit
+
+### Cambiar acciones de firma
+event-action [deny-attacker-inline | deny-connection-inline | deny-packet-inline | produce-alert | reset-tcp-connection] <!--Change router actions for a signature or signature category -->
+
+### Comandos de verificacion
+sh ip ips
+sh ip ips all
+sh ip ips configuration
+sh ip ips interfaces
+sh ip ips signatures
+sh ip ips statistics
+
+### Borrar comandos para deshabilitar IPS
+clear ip ips configuration
+clear ip ips statistics
 
 
 # Trabajo unidad 2
