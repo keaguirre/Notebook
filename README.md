@@ -19,4 +19,5 @@ Este repositorio contiene cheat sheets y apuntes de diversas tecnologías y herr
 - [Cheat Sheet de Respaldo y Recuperación](Respaldo&Recuperacion.md)
 
 ### Scripts Útiles
+- [Config Personal Stuff for CLI](myLinuxPrompt.sh)
 - [Script para configuración de JBoss en RedHat](javaJboss.sh)
