@@ -348,6 +348,47 @@ sh ip ips statistics
 clear ip ips configuration
 clear ip ips statistics
 
+## 2.3.1
+
+### Tunnel GRE
+1.  Crear un túnel GRE
+    -   `interface tunnel [number]`
+    -   `ip address [ip-address] [subnet-mask]`
+    -   `tunnel source [source-interface]`
+    -   `tunnel destination [destination-ip]`
+    -   `tunnel mode gre ip`
+
+### Tunnel IPsec
+1.  Crear un túnel IPsec
+    access-list [number] permit udp [source-ip] [source-wildcard] [destination-ip] [destination-wildcard] eq isakmp <!--permit ISAKMP Traffic-->
+    access-list [number] permit esp [source-ip] [source-wildcard] [destination-ip] [destination-wildcard] <!--permit ESP Traffic-->
+    access-list [number] permit ahp [source-ip] [source-wildcard] [destination-ip] [destination-wildcard] <!--permit AHP Traffic-->
+    crypto isakmp policy [priority]
+        hash [hash-algorithm]
+        authentication [authentication-method]
+        group [group-number]
+        lifetime [seconds]
+        encryption [encryption-algorithm]
+        end
+    do sh crypto isakmp policy
+
+1. Vincular la ACL y el conjunto de transformación al mapa.
+2. Especifique la dirección IP del par.
+3. Configure el grupo DH.
+4. Configure la vida útil del túnel IPsec.
+
+-   crypto isakmp key [key-string] hostname [peer-hostname] <!--Configure a preshared key for ISAKMP-->
+-   crypto ipsec transform-set [transform-set-name] [encryption-algorithm] [encryption-mode] [authentication-algorithm] [authentication-mode] <!--Define an IPsec | transform set transform-set R1-R2 esp-aes esp-sha-hmac-->
+-   crypto map [map-name] [sequence-number] ipsec-isakmp <!--Create a crypto map-->
+    -   match address [access-list-number] <!--Specify the access list to use with the crypto map-->
+    -   set transform-set [transform-set-name] <!--Apply the transform set to the crypto map-->
+    -   set peer [peer-ip] <!--Specify the peer IP address-->
+    -   set pfs [group-number] <!--Enable Perfect Forward Secrecy--> 
+    -   set security-association lifetime seconds [lifetime] <!--Specify the lifetime of the security association-->
+    -   exit
+-  crypto map [map-name]
+
+
 
 # Trabajo unidad 2
 # Parte1:
