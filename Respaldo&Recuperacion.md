@@ -143,6 +143,15 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 8. Ejecutar `show tables`.
 9. Ejecutar `select * from employees limit 10`.
 
+
+### Conectar desde maquina cliente a NFS
+```bash
+sudo mount -t nfs 192.168.150.52:/NFS_Rocky_vm /mounted/nfs_rocky_vm
+```
+### Manera persistente edit /etc/fstab
+```
+192.168.150.52:/NFS_Rocky_vm /mounted/nfs_rocky_vm defaults 0 0
+```
 # Video 4: 25/10/2024:
 
 # Video 5: 26/10/2024:
@@ -187,24 +196,29 @@ Pass: Password.01.
 graph TD
     subgraph NetApp_Cluster1 ["NetApp - Cluster1"]
         Nodo01["Nodo01"]
-        StorageVM["StorageVM"]
-        NFS["NFS"]
-        DS1["Volumen1: DS1 192.168.150.12"]
-        Nodo01 --> StorageVM
-        StorageVM --> NFS
-        NFS --> DS1
+        subgraph svm0 ["svm0"]
+            DS1["Volumen1: DS1 192.168.150.12"]
+        end
+        subgraph svm1 ["svm1"]
+            NFS_Rocky_vm["Volumen2: NFS_Rocky_vm 192.168.150.13"]
+        end
+        Nodo01 --> svm0
+        Nodo01 --> svm1
     end
 
     subgraph ESXi ["ESXi"]
-        rocky_vm["rocky-vm"]
-        DataStore["DataStore (DS1 NetApp)"]
-        rocky_vm --> DataStore
+        subgraph DataStore ["DataStore (DS1 NetApp)"]
+            DataStore1["Volumen1: DS1 192.168.150.12"]
+        end
+        subgraph VirtualMachines ["VirtualMachines"]
+            rocky_vm["rocky-vm: 192.168.150.138"]
+        end
     end
 
     VeeamBackup["Veeam Backup (192.168.150.153): Respaldos & Snapshots"]
 
-    DS1 ---|NFS Mount IP| rocky_vm
+    rocky_vm ---|192.168.150.52:/NFS_Rocky_vm| NFS_Rocky_vm
     DS1 ---> VeeamBackup
-    DataStore --> VeeamBackup
-
+    NFS_Rocky_vm ---> VeeamBackup
+    DataStore -->  VeeamBackup
 ```
