@@ -206,7 +206,7 @@ graph TD
         Nodo01 --> svm1
     end
 
-    subgraph ESXi ["ESXi"]
+    subgraph ESXi ["ESXi 192.168.150.20"]
         subgraph DataStore ["DataStore (DS1 NetApp)"]
             DataStore1["Volumen1: DS1 192.168.150.12"]
         end
