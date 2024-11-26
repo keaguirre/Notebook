@@ -293,8 +293,28 @@ Router(config)# snmp-server user <username> <group-name> v3 auth <auth-method> <
     - `show ntp status`
 
 
+# Unidad 2
 
+## Configuración de SPAM Mediante IDS
+Switch(config)# monitor session [number] source {interface [interface] | vlan [vlan-id]}
+Switch(config)# monitor session [number] destination {interface [interface] | vlan [vlan-id]}
 
+## Implementacion de un IPS
+mkdir [directory-name]
+rename [old-name] [new-name]
+dir [/all] [filesystem:][file-url]
+dir flash:
+
+ip ips name [rule-naame]
+ip ips config location flash: [directory-name]
+ip ips notify [sdee | log] <!-- sdee Sends msg in SDEE format, log, syslog format->
+ip http server
+ip ips notify [sdee | log]
+ip ips ips-name [in | out]
+
+## Example
+mkdir IPSDIR
+dir flash:
 
 
 # Trabajo unidad 2
