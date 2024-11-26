@@ -143,6 +143,15 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 8. Ejecutar `show tables`.
 9. Ejecutar `select * from employees limit 10`.
 
+
+### Conectar desde maquina cliente a NFS
+```bash
+sudo mount -t nfs 192.168.150.52:/NFS_Rocky_vm /mounted/nfs_rocky_vm
+```
+### Manera persistente edit /etc/fstab
+```
+192.168.150.52:/NFS_Rocky_vm /mounted/nfs_rocky_vm defaults 0 0
+```
 # Video 4: 25/10/2024:
 
 # Video 5: 26/10/2024:
@@ -197,7 +206,7 @@ graph TD
         Nodo01 --> svm1
     end
 
-    subgraph ESXi ["ESXi"]
+    subgraph ESXi ["ESXi 192.168.150.20"]
         subgraph DataStore ["DataStore (DS1 NetApp)"]
             DataStore1["Volumen1: DS1 192.168.150.12"]
         end

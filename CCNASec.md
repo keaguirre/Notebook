@@ -292,12 +292,109 @@ Router(config)# snmp-server user <username> <group-name> v3 auth <auth-method> <
 9. Comprobar el estado del NTP:
     - `show ntp status`
 
+# Unidad 2
 
+<<<<<<< HEAD
 # Unidad 2
 
 ## Configuración de SPAM Mediante IDS
 Switch(config)# monitor session [number] source {interface [interface] | vlan [vlan-id]}
 Switch(config)# monitor session [number] destination {interface [interface] | vlan [vlan-id]}
+=======
+## 2.1.1
+### Configuracion de SPAM mediante IDS
+monitor session [number] source [interface [interface] | vlan [vlan-id]] <!--Associate a SPAN session with a source port ->
+monitor session [number] destination [interface [interface] | vlan [vlan-id]] <!--Associate a SPAN session with a destination port ->
+
+### Cisco IOS IPS Con CLI
+mkdir [directory-name] <!-- Make a directory-->
+rename [old-name] [new-name] <!-- Rename a directory-->
+dir [/all] [filesystem: ] [file-url] <!-- List files in a directory-->
+
+### Implementacion de un IPS
+ip ips name [rule-name] <!--Create a rule name-->
+ip ips config location flash:[directory-name] <!--Configure IPS signature storage location-->
+ip ips notify [sdee | log] <!-- Specify the method of event notification-->
+ip ips signature-category <!-- Configure signature categories>
+category all <!-- Configure all signature categories-->
+    retired [true | false] <!-- Retire a signature category-->
+    exit
+    category ios_ips [basic | advanced] <!-- Configure IOS IPS signature category-->
+        retired [false | true] <!-- Retire a signature category-->
+        end
+ip ips [ips-name] [in | out] <!-- Apply an IPS configuration to an interface-->
+### Cargue la configuración de un IPS
+copy tftp://ftp_user: password @ server_ip_address/signature_package idconf <!-- Copy the IPS configuration from a TFTP server-->
+
+### Cancelar una firma de IPS
+ip ips signature-definition
+    signature [signature-id] [revision-number] <!-- Specify the signature ID and revision number-->
+        status
+            retired [true | false] <!-- Retire a signature(false)-->
+            exit
+        exit
+    exit
+ip ips signature-category
+    category ios_ips [basic | advanced] <!-- Configure IOS IPS signature category-->
+        retired [false | true] <!-- Retire a signature category(false)-->
+        exit
+    exit
+
+### Cambiar acciones de firma
+event-action [deny-attacker-inline | deny-connection-inline | deny-packet-inline | produce-alert | reset-tcp-connection] <!--Change router actions for a signature or signature category -->
+
+### Comandos de verificacion
+sh ip ips
+sh ip ips all
+sh ip ips configuration
+sh ip ips interfaces
+sh ip ips signatures
+sh ip ips statistics
+
+### Borrar comandos para deshabilitar IPS
+clear ip ips configuration
+clear ip ips statistics
+
+## 2.3.1
+
+### Tunnel GRE
+1.  Crear un túnel GRE
+    -   `interface tunnel [number]`
+    -   `ip address [ip-address] [subnet-mask]`
+    -   `tunnel source [source-interface]`
+    -   `tunnel destination [destination-ip]`
+    -   `tunnel mode gre ip`
+
+### Tunnel IPsec
+1.  Crear un túnel IPsec
+    access-list [number] permit udp [source-ip] [source-wildcard] [destination-ip] [destination-wildcard] eq isakmp <!--permit ISAKMP Traffic-->
+    access-list [number] permit esp [source-ip] [source-wildcard] [destination-ip] [destination-wildcard] <!--permit ESP Traffic-->
+    access-list [number] permit ahp [source-ip] [source-wildcard] [destination-ip] [destination-wildcard] <!--permit AHP Traffic-->
+    crypto isakmp policy [priority]
+        hash [hash-algorithm]
+        authentication [authentication-method]
+        group [group-number]
+        lifetime [seconds]
+        encryption [encryption-algorithm]
+        end
+    do sh crypto isakmp policy
+
+1. Vincular la ACL y el conjunto de transformación al mapa.
+2. Especifique la dirección IP del par.
+3. Configure el grupo DH.
+4. Configure la vida útil del túnel IPsec.
+
+-   crypto isakmp key [key-string] hostname [peer-hostname] <!--Configure a preshared key for ISAKMP-->
+-   crypto ipsec transform-set [transform-set-name] [encryption-algorithm] [encryption-mode] [authentication-algorithm] [authentication-mode] <!--Define an IPsec | transform set transform-set R1-R2 esp-aes esp-sha-hmac-->
+-   crypto map [map-name] [sequence-number] ipsec-isakmp <!--Create a crypto map-->
+    -   match address [access-list-number] <!--Specify the access list to use with the crypto map-->
+    -   set transform-set [transform-set-name] <!--Apply the transform set to the crypto map-->
+    -   set peer [peer-ip] <!--Specify the peer IP address-->
+    -   set pfs [group-number] <!--Enable Perfect Forward Secrecy--> 
+    -   set security-association lifetime seconds [lifetime] <!--Specify the lifetime of the security association-->
+    -   exit
+-  crypto map [map-name]
+>>>>>>> 66f734e83a295e3f7ed9d4f8dbe20c7ad2430d68
 
 ## Implementacion de un IPS
 mkdir [directory-name]
