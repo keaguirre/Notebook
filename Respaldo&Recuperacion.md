@@ -55,6 +55,12 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 ## Configuración persistente de NFS en rocky_vm
 1. `vim edit /etc/fstab` o `echo 'nfs [ip_nfs]:/directorio /mnt/nfs_rocky defaults 0 0' >> /etc/fstab`
 
+## Agregar NFS al Veeam
+1. Ir a Inventory
+2. Add Data Source en la parte superior y File share
+3. NFS Share `192.168.150.13:/nfs_rocky`
+4. Apply
+5. Luego en ESXi Agregar nfs_rocky como Datastore → `192.168.150.13:/nfs_rocky`
 ---
 ---
 ---
