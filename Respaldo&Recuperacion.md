@@ -47,7 +47,7 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 7. Finalizar y arrancar la máquina virtual.
 
 ## Montaje de NFS en rocky_vm
-1. Verificamos que podemos llegar al NFS desde la máquina virtual `rocky-vm`. con el comando `showmount -e
+1. Verificamos que podemos llegar al NFS desde la máquina virtual `rocky-vm`. con el comando `showmount -e`
 2. Creamos un directorio para montar el NFS `sudo mkdir -v /mnt/nfs_rocky`
 3. `sudo mount -t nfs [ip_nfs]:/directorio /mnt/nfs_rocky`
 
