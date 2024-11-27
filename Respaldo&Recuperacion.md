@@ -45,6 +45,7 @@ Este tutorial detalla los pasos para configurar y respaldar una máquina virtual
 5. Almacenamiento: seleccionar `DS1`.
 6. Configurar `Hard Disk 1: 6GB` y seleccionar `Rocky 8.6` desde la carpeta ISOS.
 7. Finalizar y arrancar la máquina virtual.
+8. Ejecutar `yum install -y open-vm-tools & nfs-utils`.
 
 ## Montaje de NFS en rocky_vm
 1. Verificamos que podemos llegar al NFS desde la máquina virtual `rocky-vm`. con el comando `showmount -e`
