@@ -83,16 +83,18 @@ ej: test1=$(ls | grep Des)
     - ```tar -xjvf arthivo.tar.gz```
 
 ## Señales del sistema
-| Num señal | Nombre  | Def                                | Propósito                                                                                                                                                                                                  |
+
+| Num señal | Nombre  | Definición                                | Propósito                                                                                                                                                                                                  |
 |-----------|---------|------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1         | Sighup  | Colgar                             | Se usa para informar la finalización de un proceso de control a un terminal. Además, se utiliza para solicitar que se reinicie el proceso (volvr a cargar la configuración) sin finalización.              |
-| 2         | Signint | Interrupción de teclado            | Provoca la finalización del programa. Puede bloquearse o manupularse. Enviado al presionar una combinación de teclas. INTR (ctrl+c).                                                                       |
-| 3         | Sigquit | Salida del teclado                 | Es similar a SIGINT, pero también provoca el volcado de un proceso en la finalización. Enviado al precionar una combinación de teclas QUIT (ctrl+\).                                                       |
-| 9         | Sigkill | Finalización, no se puede bloquear | Provoca la finalización abrupta del programa. No se puede bloquear, ignnorar ni manipular; SIEMPRE ES GRAVE, utilizar unicamente cuando sea necesario.                                                     |
+| 0         | Ninguno | Comprobación de proceso            | No es una señal en sí misma. Se usa para comprobar si un proceso está vivo. No envía una señal real, pero puede ser útil para verificar la existencia de un proceso sin afectar su ejecución.               |
+| 1         | Sighup  | Colgar                             | Se usa para informar la finalización de un proceso de control a un terminal. Además, se utiliza para solicitar que se reinicie el proceso (volver a cargar la configuración) sin finalización.              |
+| 2         | Signint | Interrupción de teclado            | Provoca la finalización del programa. Puede bloquearse o manipularse. Enviado al presionar una combinación de teclas. INTR (ctrl+c).                                                                       |
+| 3         | Sigquit | Salida del teclado                 | Es similar a SIGINT, pero también provoca el volcado de un proceso en la finalización. Enviado al presionar una combinación de teclas QUIT (ctrl+\).                                                       |
+| 9         | Sigkill | Finalización, no se puede bloquear | Provoca la finalización abrupta del programa. No se puede bloquear, ignorar ni manipular; **siempre es grave**, utilizar únicamente cuando sea necesario.                                                   |
 | 15        | Sigterm | Termina, Finaliza                  | Provoca la finalización del programa. A diferencia de SIGKILL, puede ignorarse, bloquearse o manipularse. Es la manera correcta de solicitar la finalización de un programa; hace posible la autolimpieza. |
-| 18        | Sigcont | Continuar                          | Se envía a un proceso para que se reinicie, en caso de que esté detenido. No puede boquearse. Aún si se manipula, siempre reinicia el proceso.                                                             |
+| 18        | Sigcont | Continuar                          | Se envía a un proceso para que se reinicie, en caso de que esté detenido. No puede bloquearse. Aun si se manipula, siempre reinicia el proceso.                                                             |
 | 19        | Sigstop | Detener, no se puede bloquear      | Suspende el proceso. No puede bloquearse ni manipularse.                                                                                                                                                   |
-| 20        | Tstp    | Detención del teclado              | a diferencia de SIGSTOP, puede bloquearse, ignorarse o manipularse. Enviado al presionar una combinación de teclas SUSP (ctrl+z).                                                                          |
+| 20        | Tstp    | Detención del teclado              | A diferencia de SIGSTOP, puede bloquearse, ignorarse o manipularse. Enviado al presionar una combinación de teclas SUSP (ctrl+z).                                                                          |
 
 ## PS
 - ps -> lista los procesos
