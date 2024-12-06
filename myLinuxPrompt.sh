@@ -47,3 +47,10 @@ curl -fLo ~/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Not
 sudo curl -fLo /root/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
 # vim -> :PlugInstall -> reiniciar vim -> Copilot setup
 
+#Install bat https://www.linode.com/docs/guides/how-to-install-and-use-the-bat-command-on-linux/
+sudo yum install tar
+curl -o bat.zip -L https://github.com/sharkdp/bat/releases/download/v0.18.2/bat-v0.18.2-x86_64-unknown-linux-musl.tar.gz
+tar -xvzf bat.zip
+sudo mv bat-v0.18.2-x86_64-unknown-linux-musl /usr/local/bat
+echo 'alias bat="/usr/local/bat/bat"' >> ~/.bashrc
+bat --version
