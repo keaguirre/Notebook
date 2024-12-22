@@ -54,3 +54,7 @@ tar -xvzf bat.zip
 sudo mv bat-v0.18.2-x86_64-unknown-linux-musl /usr/local/bat
 echo 'alias bat="/usr/local/bat/bat"' >> ~/.bashrc
 bat --version
+
+# Install Zoxide (Debian)
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+eval "$(zoxide init bash)"echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
