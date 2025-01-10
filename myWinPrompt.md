@@ -1,7 +1,7 @@
 # Configuración de Windows Terminal y PowerShell
 
 [Video Base](https://youtu.be/6SGIFVJ5Izs?si=lgTUnGTAOmVHm3gr)
-
+## Tomar de referencia para el archivo JSON de configuracion [este](settings.json) archivo
 ## Configuración Inicial
 
 1.  **Instalar PowerShell:** Abre la Microsoft Store y busca "PowerShell". Instala la versión más reciente. Esto asegura que tengas la versión más actualizada de PowerShell.
