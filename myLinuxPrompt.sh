@@ -1,60 +1,74 @@
 #!/bin/bash
 
-#Jetbrains mono
+# Instalar la fuente JetBrains Mono
+# Este script descarga e instala la fuente JetBrains Mono desde GitHub.
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
 
-#gogh terminal gnome
-bash -c  "$(wget -qO- https://git.io/vQgMr)" 
+# Instalar Gogh terminal para el entorno de escritorio GNOME
+# Este script descarga e instala la extensión de terminal Gogh para GNOME.
+bash -c "$(wget -qO- https://git.io/vQgMr)"
 
-#Install starship for root usr
-curl -sS https://starship.rs/install.sh | sh
+# Instalar el prompt Starship para el usuario root
+# Esta sección instala y configura el prompt Starship para el usuario root.
+curl -sS https://starship.rs/install.sh | sh  # Descargar y ejecutar el instalador de Starship
 
-# Adding the following to the end of ~/.bashrc for root user:
-echo 'eval "$(starship init bash)"' >> /root/.bashrc
+# Configurar Starship para el usuario root
+echo 'eval "$(starship init bash)"' >> /root/.bashrc  # Añadir el script de inicialización al .bashrc de root
+curl -o /root/.config/starship.toml https://raw.githubusercontent.com/keaguirre/Notebook/main/Assets/linux/starship.toml  # Descargar el archivo de tema
 
-# Download starship theme for root user
-curl -o /root/.config/starship.toml https://raw.githubusercontent.com/keaguirre/Notebook/main/Assets/linux/starship.toml
-
+# Recargar la configuración de bash de root
 source /root/.bashrc
 
-#Install starship for non-root users
+# Instalar el prompt Starship para usuarios no root
+# Similar a la sección del usuario root, esto instala y configura Starship para usuarios no root.
 curl -sS https://starship.rs/install.sh | sh
-#Adding the following to the end of ~/.bashrc for non-root users:
 echo 'eval "$(starship init bash)"' >> ~/.bashrc
-
-# Download starship theme for non-root users
 curl -o ~/.config/starship.toml https://raw.githubusercontent.com/keaguirre/Notebook/main/Assets/linux/starship.toml
 
+# Recargar la configuración de bash del usuario no root
 source ~/.bashrc
 
-#ohMyPosh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)" #Install Jb Mono & configure terminal to use it
-sudo apt install -y curl
-curl -s https://ohmyposh.dev/install.sh | bash -s
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/xtoys.omp.json')"' >> ~/.bashrc
-echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/huvix.omp.json')"' >> ~/.bashrc
+# Instalar el prompt Oh My Posh
+# Esta sección instala y configura el prompt Oh My Posh.
+
+# Instalar la fuente JetBrains Mono (de nuevo)
+# Esta línea parece redundante, ya que se instala al principio. Probablemente se pueda eliminar.
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/install_manual.sh)"
+
+# Instalar Oh My Posh
+sudo apt install -y curl  # Instalar curl si aún no está presente
+curl -s https://ohmyposh.dev/install.sh | bash -s  # Descargar y ejecutar el instalador de Oh My Posh
+
+# Configurar Oh My Posh para el usuario no root
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc  # Añadir la ruta de Oh My Posh al .bashrc del usuario
+echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/xtoys.omp.json')"' >> ~/.bashrc  # Añadir el tema xtoys
+echo 'eval "$(oh-my-posh init bash --config 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/huvix.omp.json')"' >> ~/.bashrc  # Añadir el tema huvix
+
+# Reiniciar bash para aplicar los cambios
 exec bash
 
-#Install Vim-Plug
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Instalar Vim-Plug (gestor de plugins para Vim)
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-#descargar mi .vimrc
-#Make sur to install git
-sudo apt install git
-curl -fLo ~/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
+# Descargar el archivo de configuración personalizado de Vim
+# Asegúrate de tener Git instalado antes de ejecutar este comando.
+sudo apt install git  # Instalar Git si aún no está presente
+curl -fLo ~/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc  # Descargar el .vimrc del usuario
+
+# Descargar el archivo de configuración personalizado de Vim para el usuario root (opcional)
 sudo curl -fLo /root/.vimrc --create-dirs https://raw.githubusercontent.com/keaguirre/Notebook/main/.vimrc
-# vim -> :PlugInstall -> reiniciar vim -> Copilot setup
 
-#Install bat https://www.linode.com/docs/guides/how-to-install-and-use-the-bat-command-on-linux/
-sudo yum install tar
-curl -o bat.zip -L https://github.com/sharkdp/bat/releases/download/v0.18.2/bat-v0.18.2-x86_64-unknown-linux-musl.tar.gz
-tar -xvzf bat.zip
-sudo mv bat-v0.18.2-x86_64-unknown-linux-musl /usr/local/bat
-echo 'alias bat="/usr/local/bat/bat"' >> ~/.bashrc
-bat --version
+# Las instrucciones para configurar Copilot dentro de Vim se omiten.
 
-# Install Zoxide (Debian)
+# Instalar bat - resaltador de sintaxis para código
+sudo yum install tar  # Instalar tar si aún no está presente (podría ser un gestor de paquetes diferente para tu distribución)
+curl -o bat.zip -L https://github.com/sharkdp/bat/releases/download/v0.18.2/bat-v0.18.2-x86_64-unknown-linux-musl.tar.gz  # Descargar el binario de bat
+tar -xvzf bat.zip  # Extraer el archivo descargado
+sudo mv bat-v0.18.2-x86_64-unknown-linux-musl /usr/local/bat  # Mover el binario de bat a la ubicación del sistema
+echo 'alias bat="/usr/local/bat/bat"' >> ~/.bashrc  # Crear un alias para el comando bat
+bat --version # Verificar la version de bat (se trunco en el original)
+
+# Instalar Zoxide (Debian)
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
-eval "$(zoxide init bash)"echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
+eval "$(zoxide init bash)"
+echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
