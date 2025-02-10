@@ -54,7 +54,9 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.c
 #    :PlugUpdate to install or update the plugins
 #    :PlugDiff to review the changes from the last update
 #    :PlugClean to remove plugins no longer in the list
-
+#    Copilot inside vim needs nodejs installed previously visit -> https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating
+#    nvm install --lts
+#    :Copilot setup para configurar copilot en vim 
 # Descargar el archivo de configuración personalizado de Vim
 # Asegúrate de tener Git instalado antes de ejecutar este comando.
 sudo apt install git  # Instalar Git si aún no está presente
