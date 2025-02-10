@@ -49,6 +49,11 @@ exec bash
 
 # Instalar Vim-Plug (gestor de plugins para Vim)
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+#Reload the file or restart Vim, then you can,
+#    :PlugInstall to install the plugins
+#    :PlugUpdate to install or update the plugins
+#    :PlugDiff to review the changes from the last update
+#    :PlugClean to remove plugins no longer in the list
 
 # Descargar el archivo de configuración personalizado de Vim
 # Asegúrate de tener Git instalado antes de ejecutar este comando.
