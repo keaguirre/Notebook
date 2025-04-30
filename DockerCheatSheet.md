@@ -203,20 +203,7 @@ The file or directory does not need to exist on the Docker host already. It is c
 
 ![bindmounts](/Assets/Docker/docker-storage.png)
 
-
-### Comandos curso <hr>
-### creacion y ejecucion de contenedores
-- docker image pull debian
-- docker ps -a # lista todos los contenedores
-- docker container create -i --tty --name debian-console debian
-- docker start -i debian-console
-- exit
-- docker run -it --name fedora-container fedora
-- docker start -i debian-console
-
--------------------------------------
-- docker run -it -w /app --name 01-app-node ubuntu:22.04
-
+## Apuntes:
 ### Run bash in python container
  docker run --name [container-name] -a stdin -a stdout -t -i [image-name] /bin/bash
 
