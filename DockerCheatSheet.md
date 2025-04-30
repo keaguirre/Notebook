@@ -1,8 +1,9 @@
-### Bajar una imagen
+# 🐋📦 Docker - Apuntes Organizados
+## Bajar una imagen
 >docker image pull [nombre_imagen] #usa latest por default
 - [listado de imagenes](https://hub.docker.com/)
 
-### Crear un contenedor
+## Crear un contenedor
 > docker container create --name [debian] [imagenContenedor] # Crear contenedor
 
 <code>
@@ -142,14 +143,14 @@ el -i(interactive al start) es para poder usar esa stdin
 
 <hr>
 
-### Docker overlay 2
+### Docker overlay 
 
 - [reference](https://docs.docker.com/storage/storagedriver/overlayfs-driver/)
 - Lower dir: carpetas de la imagen
 - Merged dir: mezcla de carpetas (contenedor)
 - Upper dir: diferencias del contenedor
 
-![layers](https://docs.docker.com/storage/storagedriver/images/overlay_constructs.jpg)
+![layers](Assets/Docker/overlay_constructs.webp)
 
 ## Docker Bridge
     Crear un contenedor con puertos publicados
@@ -200,7 +201,7 @@ Bind mounts have been around since the early days of Docker. Bind mounts have li
 
 The file or directory does not need to exist on the Docker host already. It is created on demand if it does not yet exist. Bind mounts are very performant, but they rely on the host machine’s filesystem having a specific directory structure available. If you are developing new Docker applications, consider using named volumes instead. You can’t use Docker CLI commands to directly manage bind mounts.
 
-![bindmounts](https://docs.docker.com/storage/images/types-of-mounts-bind.png)
+![bindmounts](/Assets/Docker/docker-storage.png)
 
 
 ### Comandos curso <hr>
