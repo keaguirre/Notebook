@@ -1,15 +1,51 @@
 # Kubernetes
-![Docs]([https://www.hunters.security/en/blog/kubernetes-security-guide](https://kubernetes.io/docs/concepts/overview/))
+[Docs]([https://www.hunters.security/en/blog/kubernetes-security-guide](https://kubernetes.io/docs/concepts/overview/))
 
-## Basic concepts
-![Alt text](https://lh7-us.googleusercontent.com/docsz/AD_4nXfynlt7t0NifjCHKO7769qp4u9mdXRRaQ15lbwy7fOVkbga9-LHizfkhwKO069_e1a9KmB_FQMo5SKk5Hprs76SkHF3mCIcEQbPf4oVqbVVMYfpWUtJ4udP8LZ8Cjwdl1MsvxDkzGh5mCtpGGb1D3yNWIw?key=2w5PVqIs1gWd_EUlSJM-EQ)
+# Basic concepts
+## Clúster
+Un conjunto de nodos que ejecutan aplicaciones en contenedores. Un clúster de Kubernetes consta de un plano de control y uno o más nodos de trabajo.(todo el contenido de la imagen es la referencia a los elementos del clúster).
 
-![Reference](https://www.hunters.security/en/blog/kubernetes-security-guide)
-- Cluster - A set of control plane and worker nodes.
-- Nodes:
-    - Worker Nodes: A physical or virtual machine that hosts one or more pods. Nodes are often referred to as worker nodes. , while the control plane components (e.g. kube-apiserver, etcd, kube-scheduler) are typically hosted on the same dedicated machine.
-    - Control Plane: The layer that manages the worker nodes and the pods in the cluster. It includes important cluster components such as: kube-apiserver, etcd, kube-scheduler. A set of those components is typically hosted on the same dedicated machine.  The host running this set of components was historically called the master node. 
-- Pod - A wrapper (an abstraction layer) over a container. Enables users to use Kubernetes without worrying about the kind of container (i.e. agnostic to container kind).
-One benefit of using pods is that we only interact with the Kubernetes layer and not the container’s layer.
-Usually, a pod contains 1 container, but that doesn’t have to be the case. Network-wise, a pod gets an internal IP address (and not the container).
-The last important aspect we should mention about pods is that they are ephemeral. That means they are designed to be relatively short-lived, easily started, stopped, or restarted to adapt to changes in workload or to recover from faults.
+![Kubernetes-architecture](Assets/kubernetes/k8-architecture.jpg)
+
+## Control Plane
+Es el "cerebro" de Kubernetes. Administra y coordina todo el clúster.
+
+### API Server
+- Punto de entrada para todas las peticiones (UI, CLI, herramientas externas).
+- Expone la API de Kubernetes y valida las peticiones.
+
+### Scheduler
+- Decide en qué nodo se colocarán los pods nuevos.
+- Toma decisiones basadas en la disponibilidad de recursos, afinidad, etc.
+
+### Controller Manager
+- Ejecuta distintos controladores que regulan el estado del clúster (por ejemplo, replicar pods, reiniciar contenedores, etc.).
+
+### etcd
+- Base de datos distribuida que almacena todo el estado del clúster de Kubernetes.
+- Altamente disponible y consistente.
+
+## Worker Nodes (Nodos trabajadores)
+Estos ejecutan las aplicaciones en contenedores. A physical or virtual machine that hosts one or more pods. Nodes are often referred to as worker nodes, while the control plane components (e.g. kube-apiserver, etcd, kube-scheduler) are typically hosted on the same dedicated machine as the control plane which is responsible for managing the worker nodes and the pods in the cluster that run on them orchestrated by the control plane on another dedicated machine.
+
+- Cada nodo contiene:
+    -   Pods: A wrapper (an abstraction layer) over a container. Enables users to use Kubernetes without worrying about the kind of container (i.e. agnostic to container kind). The last important aspect we should mention about pods is that they are ephemeral. That means they are designed to be relatively short-lived, easily started, stopped, or restarted to adapt to changes in workload or to recover from faults.
+        -   Unidad mínima desplegable de Kubernetes.
+        -   Un pod puede contener uno o más contenedores.
+        -   Una o mas unidades de red y almacenamiento compartido.
+
+    -   Runtime de contenedores
+        -   Software que ejecuta los contenedores dentro de los pods. Ejemplos: Docker, Containerd, CRI-O.
+        
+    -   Containerd
+        -   Motor de contenedores que ejecuta y gestiona los contenedores dentro de los pods.
+
+    -   kubelet
+        -   Agente que se ejecuta en cada nodo y comunica con el API Server.
+        -   Se asegura de que los contenedores estén ejecutándose como deberían.
+
+    -   Kube-proxy
+        -   Maneja la red del nodo y la comunicación entre servicios.
+        -   Implementa el balanceo de carga y reenvío de tráfico.
+
+[Reference](https://www.hunters.security/en/blog/kubernetes-security-guide)
