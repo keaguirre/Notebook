@@ -49,3 +49,25 @@ Estos ejecutan las aplicaciones en contenedores. A physical or virtual machine t
         -   Implementa el balanceo de carga y reenvío de tráfico.
 
 [Reference](https://www.hunters.security/en/blog/kubernetes-security-guide)
+
+## Lab 1
+```bash
+# Ver los nodos del clúster
+kubectl get nodes
+# Ver los pods en el clúster
+kubectl get pods --all-namespaces
+# Ver los nodos con más detalles (incluyendo IPs, roles, SO y versión)
+kubectl get nodes -o wide
+```
+
+## Local options to setup a Kubernetes cluster
+- **Minikube**: Herramienta para ejecutar un clúster de Kubernetes localmente. Ideal para desarrollo y pruebas.
+- **K3s**: Una versión ligera de Kubernetes, ideal para entornos con recursos limitados.
+- **Kind**: Herramienta para ejecutar clústeres de Kubernetes en contenedores Docker. Útil para pruebas y desarrollo.
+- **MicroK8s**: Una distribución ligera de Kubernetes que se puede instalar en una sola máquina. Ideal para desarrollo y pruebas locales.
+- **Rancher Desktop**: Una aplicación de escritorio que permite ejecutar Kubernetes localmente con una interfaz gráfica. Incluye Minikube y K3s como opciones de clúster.
+- **kubeadm**: Herramienta para crear clústeres de Kubernetes de manera sencilla. Permite configurar un clúster desde cero en máquinas virtuales o físicas con foco en clústeres en producción.
+
+## Minikube architecture
+Minikube bundles a single-node Kubernetes cluster with a virtual machine (VM) or container runtime. It provides a local environment for testing and development. Including the Kubernetes Master with Master Components(API server, controller manager, scheduler, and kubelet), all running on a single node. Minikube supports various container runtimes like Docker, containerd, and CRI-O.
+![Minikube-architecture](Assets/kubernetes/minikube-architecture.jpg)
