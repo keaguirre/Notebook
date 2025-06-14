@@ -68,6 +68,52 @@ kubectl get nodes -o wide
 - **Rancher Desktop**: Una aplicación de escritorio que permite ejecutar Kubernetes localmente con una interfaz gráfica. Incluye Minikube y K3s como opciones de clúster.
 - **kubeadm**: Herramienta para crear clústeres de Kubernetes de manera sencilla. Permite configurar un clúster desde cero en máquinas virtuales o físicas con foco en clústeres en producción.
 
-## Minikube architecture
+# Minikube architecture
 Minikube bundles a single-node Kubernetes cluster with a virtual machine (VM) or container runtime. It provides a local environment for testing and development. Including the Kubernetes Master with Master Components(API server, controller manager, scheduler, and kubelet), all running on a single node. Minikube supports various container runtimes like Docker, containerd, and CRI-O.
 ![Minikube-architecture](Assets/kubernetes/minikube-architecture.jpg)
+
+## Install Minikube
+ [Download + instructions](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
+
+## Install kubectl
+```bash
+sudo dnf install -y kubectl
+```
+## Setup Minikube
+Start a cluster using the docker driver:
+- [driver options](https://minikube.sigs.k8s.io/docs/drivers/)
+```bash
+minikube start --driver=docker
+```
+
+To make docker the default driver:
+```bash
+minikube config set driver docker
+```
+### Check Minikube status
+```bash
+minikube status
+```
+### Check Minikube dashboard
+```bash
+minikube dashboard
+```
+### Create a deployment
+```bash
+kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+kubectl get deployments
+```
+### Create deployment as service with exposed port
+```bash
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
+kubectl get services
+minikube service hello-minikube --url
+# Visit de IP http://127.0.0.1:40383 given from minikube service hello-minikube --url (the port may vary)
+```
+### delete service and deployment
+```bash
+kubectl delete service hello-minikube
+kubectl delete deployment hello-minikube
+kubectl get pods # to check if the deployment was deleted
+
+```
