@@ -50,6 +50,10 @@ Estos ejecutan las aplicaciones en contenedores. A physical or virtual machine t
 
 [Reference](https://www.hunters.security/en/blog/kubernetes-security-guide)
 
+## [Ciclo de vida de contenedores](https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/)
+## [Ciclo de vida de los Release](https://kubernetes.io/releases/release/)
+## [Ciclo de vida de los Pods](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
+
 ## Lab 1
 ```bash
 # Ver los nodos del clúster
@@ -117,3 +121,4 @@ kubectl delete deployment hello-minikube
 kubectl get pods # to check if the deployment was deleted
 
 ```
+
